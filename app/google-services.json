@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "732627875915",
+    "firebase_url": "https://animedgb-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "animedgb",
+    "storage_bucket": "animedgb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732627875915:android:deeac0de5a5e025cf835ce",
+        "android_client_info": {
+          "package_name": "com.example.animeggs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "732627875915-s62iaum4a2qdr4kqjk4238e9atvt1spi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPgaaN1sYs9PX7ATm4qRGWbol_qO8AUNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "732627875915-s62iaum4a2qdr4kqjk4238e9atvt1spi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
