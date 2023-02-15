@@ -4,14 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -61,17 +58,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
     public void crearAnimes(ArrayList<Anime> animeList) {
-        HorizontalScrollView scrollView = new HorizontalScrollView(this);
 
-        LinearLayout linearLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        linearLayout.setLayoutParams(params);
-        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        for(Anime anime : animeList) {
-            CardView animeCover = new CardView(MainActivity.this);
+        LinearLayout linearLayout = findViewById(R.id.layout_scroll_animes_1);
+        linearLayout.removeAllViews();
+        for (Anime anime : animeList) {
+//            CardView animeCover = new CardView(MainActivity.this);
             View view = getLayoutInflater().inflate(R.layout.card_small_anime, null);
 
             ImageView cardCaratula = view.findViewById(R.id.card_caratula);
@@ -80,13 +73,36 @@ public class MainActivity extends AppCompatActivity {
             TextView cardNombre = view.findViewById(R.id.card_nombre);
             cardNombre.setText(anime.getNombre());
 
-            animeCover.addView(view);
-            linearLayout.addView(animeCover, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+            linearLayout.addView(view, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
         }
 
-        scrollView.addView(linearLayout);
-        setContentView(scrollView);
     }
+//    public void crearAnimes(ArrayList<Anime> animeList) {
+//        HorizontalScrollView scrollView = new HorizontalScrollView(this);
+//
+//        LinearLayout linearLayout = new LinearLayout(this);
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+//        linearLayout.setLayoutParams(params);
+//        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+//        linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+//
+//        for(Anime anime : animeList) {
+//            CardView animeCover = new CardView(MainActivity.this);
+//            View view = getLayoutInflater().inflate(R.layout.card_small_anime, null);
+//
+//            ImageView cardCaratula = view.findViewById(R.id.card_caratula);
+//            Picasso.get().load(anime.getCaratula()).into(cardCaratula);
+//
+//            TextView cardNombre = view.findViewById(R.id.card_nombre);
+//            cardNombre.setText(anime.getNombre());
+//
+//            animeCover.addView(view);
+//            linearLayout.addView(animeCover, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+//        }
+//
+//        scrollView.addView(linearLayout);
+//        setContentView(scrollView);
+//    }
 
 
 //    public void crearAnimes(ArrayList<Anime> animeList) {
