@@ -1,8 +1,11 @@
 package com.example.animeggs;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,10 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.EpisodioViewHolder> {
+    private  Context context;
     private List<Episodio> episodios;
-
-    public EpisodioAdapter(List<Episodio> episodios) {
+    public EpisodioAdapter(List<Episodio> episodios, Context context) {
         this.episodios = episodios;
+        this.context = context;
     }
 
     @NonNull
@@ -29,6 +33,11 @@ public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.Episod
         Episodio episodio = episodios.get(position);
         holder.textViewEpisodioNumero.setText("Episodio " + episodio.getNumero());
         holder.textViewEpisodioTitulo.setText(episodio.getTitulo());
+        holder.episodio_layout.setOnClickListener(v -> {
+            Intent intent = new Intent(context, VerEpisodio.class);
+            intent.putExtra("enlace_episodio", episodio.getEnlaceEpisodio());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -39,12 +48,16 @@ public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.Episod
     public static class EpisodioViewHolder extends RecyclerView.ViewHolder {
         TextView textViewEpisodioNumero;
         TextView textViewEpisodioTitulo;
+        LinearLayout episodio_layout;
 
         public EpisodioViewHolder(@NonNull View itemView) {
             super(itemView);
+            episodio_layout = itemView.findViewById(R.id.episodio_layout);
             textViewEpisodioTitulo = itemView.findViewById(R.id.text_view_episodio_titulo);
             textViewEpisodioNumero = itemView.findViewById(R.id.text_view_episodio_numero);
 
+
         }
+
     }
 }

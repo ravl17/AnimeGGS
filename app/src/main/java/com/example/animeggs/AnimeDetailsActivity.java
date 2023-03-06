@@ -18,7 +18,6 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class AnimeDetailsActivity extends AppCompatActivity {
-
     private ImageView imageView;
     private TextView textViewNombre;
     private TextView textViewDescripcion;
@@ -71,7 +70,8 @@ public class AnimeDetailsActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
         ArrayList<Episodio> episodios = receivedStringArray;
-        EpisodioAdapter adapter = new EpisodioAdapter(episodios);
+        EpisodioAdapter adapter = new EpisodioAdapter(episodios,this);
         episodiosRecyclerView.setAdapter(adapter);
     }
+
 }

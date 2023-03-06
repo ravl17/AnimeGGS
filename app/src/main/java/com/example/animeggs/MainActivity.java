@@ -1,7 +1,6 @@
 package com.example.animeggs;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
                     ArrayList<Episodio> episodios = new ArrayList<>();
                     int cont = 0;
                     for (DataSnapshot episodioSnapshot : animeSnapshot.child("episodios").getChildren()) {
-                        String titulo = episodioSnapshot.child("ep").getValue(String.class);
+                        String enlaceEpisodio = episodioSnapshot.child("ep").getValue(String.class);
 //                        int numero = episodioSnapshot.child("numero").getValue(Integer.class);
-                        Episodio episodio = new Episodio(cont, ""+cont);
+                        Episodio episodio = new Episodio(cont, ""+cont,enlaceEpisodio);
                         episodios.add(episodio);
                         cont++;
                     }
