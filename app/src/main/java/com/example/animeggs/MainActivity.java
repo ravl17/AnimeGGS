@@ -3,6 +3,7 @@ package com.example.animeggs;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
                     String generos = animeSnapshot.child("generos").getValue(String.class);
                     String descripcion = animeSnapshot.child("descripcion").getValue(String.class);
                     animeList.add(new Anime(nombre, caratula, estudio, generos, descripcion));
-                    crearAnimes(animeList);
 
                 }
+                crearAnimes(animeList);
 
             }
 
@@ -65,15 +66,24 @@ public class MainActivity extends AppCompatActivity {
         linearLayout.removeAllViews();
         for (Anime anime : animeList) {
 //            CardView animeCover = new CardView(MainActivity.this);
-            View view = getLayoutInflater().inflate(R.layout.card_small_anime, null);
+            View cardAnime = getLayoutInflater().inflate(R.layout.card_small_anime, null);
 
-            ImageView cardCaratula = view.findViewById(R.id.card_caratula);
+            ImageView cardCaratula = cardAnime.findViewById(R.id.card_caratula);
             Picasso.get().load(anime.getCaratula()).into(cardCaratula);
 
-            TextView cardNombre = view.findViewById(R.id.card_nombre);
+            TextView cardNombre = cardAnime.findViewById(R.id.card_nombre);
             cardNombre.setText(anime.getNombre());
-
-            linearLayout.addView(view, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+            cardAnime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("Info",anime.getNombre());
+                    Intent intent = new Intent(v.getContext(), AnimeDetailsActivity.class);
+                    intent.putExtra("anime_nombre", anime.getNombre());
+                    intent.putExtra("anime_caratula", anime.getCaratula());
+                    startActivity(intent);
+                }
+            });
+            linearLayout.addView(cardAnime, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         }
 
     }
