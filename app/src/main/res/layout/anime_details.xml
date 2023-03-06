@@ -54,6 +54,11 @@
             android:textStyle="bold"
             android:visibility="gone"/>
         <!-- Add any other information or UI elements here -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_episodios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
 

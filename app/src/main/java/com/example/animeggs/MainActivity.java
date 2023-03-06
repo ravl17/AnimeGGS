@@ -19,6 +19,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,7 +48,17 @@ public class MainActivity extends AppCompatActivity {
                     String estudio = animeSnapshot.child("estudio").getValue(String.class);
                     String generos = animeSnapshot.child("generos").getValue(String.class);
                     String descripcion = animeSnapshot.child("descripcion").getValue(String.class);
-                    animeList.add(new Anime(nombre, caratula, estudio, generos, descripcion));
+
+                    ArrayList<Episodio> episodios = new ArrayList<>();
+                    int cont = 0;
+                    for (DataSnapshot episodioSnapshot : animeSnapshot.child("episodios").getChildren()) {
+//                        String titulo = episodioSnapshot.child("titulo").getValue(String.class);
+//                        int numero = episodioSnapshot.child("numero").getValue(Integer.class);
+                        Episodio episodio = new Episodio(cont, ""+cont);
+                        episodios.add(episodio);
+                        cont++;
+                    }
+                    animeList.add(new Anime(nombre, caratula, estudio, generos, descripcion,episodios));
 
                 }
                 crearAnimes(animeList);
@@ -81,6 +94,17 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("anime_nombre", anime.getNombre());
                     intent.putExtra("anime_caratula", anime.getCaratula());
                     intent.putExtra("anime_descripcion", anime.getDescripcion());
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    ObjectOutputStream oos = null;
+                    try {
+                        oos = new ObjectOutputStream(baos);
+                        oos.writeObject(anime.getEpisodios());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    byte[] byteArray = baos.toByteArray();
+                    intent.putExtra("anime_episodios", byteArray);
                     startActivity(intent);
                 }
             });
