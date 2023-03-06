@@ -3,21 +3,21 @@ package com.example.animeggs;
 import java.io.Serializable;
 
 public class Episodio implements Serializable {
-    private int number;
-    private String title;
+    private int numero;
+    private String titulo;
 
-    public Episodio(int number, String title) {
-        this.number = number;
-        this.title = title;
+    public Episodio(int numero, String titulo) {
+        this.numero = numero;
+        this.titulo = titulo;
     }
 
-    public int getNumber() {
-        return number;
+    public int getNumero() {
+        return numero;
     }
 
 
-    public String getTitle() {
-        return title;
+    public String getTitulo() {
+        return titulo;
     }
 
 }

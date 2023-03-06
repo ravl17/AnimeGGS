@@ -27,8 +27,8 @@ public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.Episod
     @Override
     public void onBindViewHolder(@NonNull EpisodioViewHolder holder, int position) {
         Episodio episodio = episodios.get(position);
-        holder.textViewEpisodioNumber.setText("Episodio " + episodio.getNumber());
-        holder.textViewEpisodioTitle.setText(episodio.getTitle());
+        holder.textViewEpisodioNumero.setText("Episodio " + episodio.getNumero());
+        holder.textViewEpisodioTitulo.setText(episodio.getTitulo());
     }
 
     @Override
@@ -37,13 +37,13 @@ public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.Episod
     }
 
     public static class EpisodioViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewEpisodioNumber;
-        TextView textViewEpisodioTitle;
+        TextView textViewEpisodioNumero;
+        TextView textViewEpisodioTitulo;
 
         public EpisodioViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewEpisodioTitle = itemView.findViewById(R.id.text_view_episodio_title);
-            textViewEpisodioNumber = itemView.findViewById(R.id.text_view_episodio_number);
+            textViewEpisodioTitulo = itemView.findViewById(R.id.text_view_episodio_titulo);
+            textViewEpisodioNumero = itemView.findViewById(R.id.text_view_episodio_numero);
 
         }
     }

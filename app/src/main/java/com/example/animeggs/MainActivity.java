@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     ArrayList<Episodio> episodios = new ArrayList<>();
                     int cont = 0;
                     for (DataSnapshot episodioSnapshot : animeSnapshot.child("episodios").getChildren()) {
-//                        String titulo = episodioSnapshot.child("titulo").getValue(String.class);
+                        String titulo = episodioSnapshot.child("ep").getValue(String.class);
 //                        int numero = episodioSnapshot.child("numero").getValue(Integer.class);
                         Episodio episodio = new Episodio(cont, ""+cont);
                         episodios.add(episodio);

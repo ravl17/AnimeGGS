@@ -6,13 +6,13 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/text_view_episodio_number"
+        android:id="@+id/text_view_episodio_numero"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <TextView
-        android:id="@+id/text_view_episodio_title"
+        android:id="@+id/text_view_episodio_titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />

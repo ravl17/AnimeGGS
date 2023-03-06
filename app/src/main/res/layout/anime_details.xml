@@ -16,6 +16,7 @@
             android:scaleType="centerCrop" />
 
         <!-- Anime title -->
+
         <TextView
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
