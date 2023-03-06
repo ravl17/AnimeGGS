@@ -1,4 +1,4 @@
-package com.example.animeggs;
+package com.example.animeggs.Objetos;
 
 import java.io.Serializable;
 

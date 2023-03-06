@@ -1,7 +1,6 @@
-package com.example.animeggs;
+package com.example.animeggs.Objetos;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Anime {
     private String nombre;

@@ -1,4 +1,4 @@
-package com.example.animeggs;
+package com.example.animeggs.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.animeggs.Objetos.Episodio;
+import com.example.animeggs.Objetos.EpisodioAdapter;
+import com.example.animeggs.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayInputStream;
@@ -25,7 +28,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.anime_details);
+        setContentView(R.layout.activity_anime_details);
 
 
         Intent intent = getIntent();

@@ -1,4 +1,4 @@
-package com.example.animeggs;
+package com.example.animeggs.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.animeggs.Activities.AnimeDetailsActivity;
+import com.example.animeggs.Objetos.Anime;
+import com.example.animeggs.Objetos.Episodio;
+import com.example.animeggs.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
