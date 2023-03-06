@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(v.getContext(), AnimeDetailsActivity.class);
                     intent.putExtra("anime_nombre", anime.getNombre());
                     intent.putExtra("anime_caratula", anime.getCaratula());
+                    intent.putExtra("anime_descripcion", anime.getDescripcion());
                     startActivity(intent);
                 }
             });
