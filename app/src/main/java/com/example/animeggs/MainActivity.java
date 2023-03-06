@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             TextView cardNombre = view.findViewById(R.id.card_nombre);
             cardNombre.setText(anime.getNombre());
 
-            linearLayout.addView(view, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+            linearLayout.addView(view, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         }
 
     }
