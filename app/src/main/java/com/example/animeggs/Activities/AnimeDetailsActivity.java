@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.animeggs.Objetos.BarraBusquedaHelper;
 import com.example.animeggs.Objetos.Episodio;
 import com.example.animeggs.Objetos.EpisodioAdapter;
 import com.example.animeggs.R;
@@ -30,7 +31,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anime_details);
 
-
+        BarraBusquedaHelper.setupSearchBar(this);
         Intent intent = getIntent();
 
         //Creamos el titulo del anime
@@ -49,7 +50,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
             animeReadMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    textViewDescripcion.setMaxLines(Integer.MAX_VALUE);
+                    textViewDescripcion.setMaxLines(15);
                     animeReadMore.setVisibility(View.GONE);
                 }
             });

@@ -2,7 +2,7 @@ package com.example.animeggs.Objetos;
 
 import java.util.ArrayList;
 
-public class Anime {
+public class Anime extends ArrayList<Anime> {
     private String nombre;
     private String caratula;
 

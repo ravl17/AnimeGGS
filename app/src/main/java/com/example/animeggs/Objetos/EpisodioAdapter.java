@@ -34,7 +34,7 @@ public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.Episod
     @Override
     public void onBindViewHolder(@NonNull EpisodioViewHolder holder, int position) {
         Episodio episodio = episodios.get(position);
-        holder.textViewEpisodioNumero.setText("Episodio " + episodio.getNumero());
+        holder.textViewEpisodioNumero.setText("Episodio " + (episodio.getNumero()+1));
         holder.textViewEpisodioTitulo.setText(episodio.getTitulo());
         holder.episodio_layout.setOnClickListener(v -> {
             Intent intent = new Intent(context, VerEpisodio.class);
