@@ -55,8 +55,8 @@ public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.Episod
 
         public EpisodioViewHolder(@NonNull View itemView) {
             super(itemView);
-            episodio_layout = itemView.findViewById(R.id.episodio_layout);
-            textViewEpisodioTitulo = itemView.findViewById(R.id.text_view_episodio_titulo);
+            episodio_layout = itemView.findViewById(R.id.anime_search_layout);
+            textViewEpisodioTitulo = itemView.findViewById(R.id.text_view_anime_search_nombre);
             textViewEpisodioNumero = itemView.findViewById(R.id.text_view_episodio_numero);
 
 

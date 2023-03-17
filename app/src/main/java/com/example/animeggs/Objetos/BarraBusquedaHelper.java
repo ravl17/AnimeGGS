@@ -2,33 +2,56 @@ package com.example.animeggs.Objetos;
 
 import android.app.Activity;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.animeggs.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class BarraBusquedaHelper {
+    private static AnimeSearchAdapter animeSearchAdapter;
+    private static ArrayList<Anime> animeList;
     public static void setupSearchBar(Activity activity) {
+
+
+
         ViewGroup rootView = activity.findViewById(R.id.layout_scroll_vertical);
 
 //        SearchView searchView = activity.findViewById(R.id.barraBusqueda);
-        SearchView searchView = (SearchView) activity.getLayoutInflater().inflate(R.layout.barra_busqueda, null);
-        SearchView.LayoutParams params = new SearchView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        searchView.setLayoutParams(params);
-        rootView.addView(searchView,0);
+        View searchViewLayout =  activity.getLayoutInflater().inflate(R.layout.barra_busqueda, null);
+        SearchView searchView =searchViewLayout.findViewById(R.id.barraBusqueda);
+        rootView.addView(searchViewLayout,0);
+
+
+        getAnimeList();
+        RecyclerView recyclerView = activity.findViewById(R.id.recycler_view_anime_search);
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        animeSearchAdapter = new AnimeSearchAdapter(animeList);
+        recyclerView.setAdapter(animeSearchAdapter);
 
         // Set up the query text listener
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // Handle the search query
+
+                // Update the adapter with the filtered results
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Handle the search query as the user types
+                animeSearchAdapter.filter(newText);
                 return true;
             }
         });
@@ -36,4 +59,42 @@ public class BarraBusquedaHelper {
         // Add the search bar to the activity's layout
 
     }
+    public static void getAnimeList(){
+        animeList = new ArrayList<>();
+        // Initialize the Firebase database reference
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("animes");
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot animeSnapshot : dataSnapshot.getChildren()) {
+                    String caratula = animeSnapshot.child("caratula").getValue(String.class);
+                    String nombre = animeSnapshot.child("nombre").getValue(String.class);
+                    String estudio = animeSnapshot.child("estudio").getValue(String.class);
+                    String generos = animeSnapshot.child("generos").getValue(String.class);
+                    String descripcion = animeSnapshot.child("descripcion").getValue(String.class);
+
+                    ArrayList<Episodio> episodios = new ArrayList<>();
+                    int cont = 0;
+                    for (DataSnapshot episodioSnapshot : animeSnapshot.child("episodios").getChildren()) {
+                        String enlaceEpisodio = episodioSnapshot.child("ep").getValue(String.class);
+//                        int numero = episodioSnapshot.child("numero").getValue(Integer.class);
+                        Episodio episodio = new Episodio(cont, ""+cont,enlaceEpisodio);
+                        episodios.add(episodio);
+                        cont++;
+                    }
+                    animeList.add(new Anime(nombre, caratula, estudio, generos, descripcion,episodios));
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Handle error
+            }
+        });
+    }
 }
+
