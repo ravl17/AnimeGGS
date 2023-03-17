@@ -21,16 +21,16 @@ import java.util.ArrayList;
 public class BarraBusquedaHelper {
     private static AnimeSearchAdapter animeSearchAdapter;
     private static ArrayList<Anime> animeList;
-    public static void setupSearchBar(Activity activity) {
 
+    public static void setupSearchBar(Activity activity) {
 
 
         ViewGroup rootView = activity.findViewById(R.id.layout_scroll_vertical);
 
 //        SearchView searchView = activity.findViewById(R.id.barraBusqueda);
-        View searchViewLayout =  activity.getLayoutInflater().inflate(R.layout.barra_busqueda, null);
-        SearchView searchView =searchViewLayout.findViewById(R.id.barraBusqueda);
-        rootView.addView(searchViewLayout,0);
+        View searchViewLayout = activity.getLayoutInflater().inflate(R.layout.barra_busqueda, null);
+        SearchView searchView = searchViewLayout.findViewById(R.id.barraBusqueda);
+        rootView.addView(searchViewLayout, 0);
 
 
         getAnimeList();
@@ -55,11 +55,20 @@ public class BarraBusquedaHelper {
                 return true;
             }
         });
+        searchView.setOnQueryTextFocusChangeListener((view, hasFocus) -> {
+            if (!hasFocus) {
+                // Clear the adapter and hide the RecyclerView when the search view loses focus
+                recyclerView.setVisibility(View.GONE);
+            } else {
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        });
 
-        // Add the search bar to the activity's layout
+
 
     }
-    public static void getAnimeList(){
+
+    public static void getAnimeList() {
         animeList = new ArrayList<>();
         // Initialize the Firebase database reference
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -80,11 +89,11 @@ public class BarraBusquedaHelper {
                     for (DataSnapshot episodioSnapshot : animeSnapshot.child("episodios").getChildren()) {
                         String enlaceEpisodio = episodioSnapshot.child("ep").getValue(String.class);
 //                        int numero = episodioSnapshot.child("numero").getValue(Integer.class);
-                        Episodio episodio = new Episodio(cont, ""+cont,enlaceEpisodio);
+                        Episodio episodio = new Episodio(cont, "" + cont, enlaceEpisodio);
                         episodios.add(episodio);
                         cont++;
                     }
-                    animeList.add(new Anime(nombre, caratula, estudio, generos, descripcion,episodios));
+                    animeList.add(new Anime(nombre, caratula, estudio, generos, descripcion, episodios));
 
                 }
 

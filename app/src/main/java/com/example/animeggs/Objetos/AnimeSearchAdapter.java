@@ -54,6 +54,11 @@ public class AnimeSearchAdapter extends RecyclerView.Adapter<AnimeSearchAdapter.
         }
         notifyDataSetChanged();
     }
+    public void clear() {
+        animeList.clear();
+        notifyDataSetChanged();
+    }
+
     public static class AnimeViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
 
