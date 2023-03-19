@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.animeggs.Activities.AnimeDetailsActivity;
 import com.example.animeggs.Objetos.Anime;
 import com.example.animeggs.Objetos.BarraBusquedaHelper;
 import com.example.animeggs.Objetos.Episodio;
@@ -43,30 +42,49 @@ public class MainActivity extends AppCompatActivity {
         // Initialize the Firebase database reference
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("animes");
+        Log.d("Teste", "onCreate: "+ref.get());
 
+//        ref.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot animeSnapshot : dataSnapshot.getChildren()) {
+//                    String caratula = animeSnapshot.child("caratula").getValue(String.class);
+//                    String nombre = animeSnapshot.child("nombre").getValue(String.class);
+//                    String estudio = animeSnapshot.child("estudio").getValue(String.class);
+//                    String generos = animeSnapshot.child("generos").getValue(String.class);
+//                    String descripcion = animeSnapshot.child("descripcion").getValue(String.class);
+//
+//                    ArrayList<Episodio> episodios = new ArrayList<>();
+//                    int cont = 0;
+//                    for (DataSnapshot episodioSnapshot : animeSnapshot.child("episodios").getChildren()) {
+//                        String enlaceEpisodio = episodioSnapshot.child("ep").getValue(String.class);
+//                        Episodio episodio = new Episodio(cont, ""+cont,enlaceEpisodio);
+//                        episodios.add(episodio);
+//                        cont++;
+//                    }
+//                    animeList.add(new Anime(nombre, caratula, estudio, generos, descripcion,episodios));
+//
+//                }
+//                crearCardAnimes(animeList);
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                // Handle error
+//            }
+//        });
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 for (DataSnapshot animeSnapshot : dataSnapshot.getChildren()) {
-                    String caratula = animeSnapshot.child("caratula").getValue(String.class);
-                    String nombre = animeSnapshot.child("nombre").getValue(String.class);
-                    String estudio = animeSnapshot.child("estudio").getValue(String.class);
-                    String generos = animeSnapshot.child("generos").getValue(String.class);
-                    String descripcion = animeSnapshot.child("descripcion").getValue(String.class);
-
-                    ArrayList<Episodio> episodios = new ArrayList<>();
-                    int cont = 0;
-                    for (DataSnapshot episodioSnapshot : animeSnapshot.child("episodios").getChildren()) {
-                        String enlaceEpisodio = episodioSnapshot.child("ep").getValue(String.class);
-//                        int numero = episodioSnapshot.child("numero").getValue(Integer.class);
-                        Episodio episodio = new Episodio(cont, ""+cont,enlaceEpisodio);
-                        episodios.add(episodio);
-                        cont++;
-                    }
-                    animeList.add(new Anime(nombre, caratula, estudio, generos, descripcion,episodios));
-
+                    Anime anime = animeSnapshot.getValue(Anime.class);
+                    Log.d("TAG", "onDataChange: "+anime.toString());
+                    animeList.add(anime);
                 }
-                crearAnimes(animeList);
+
+                crearCardAnimes(animeList);
 
             }
 
@@ -77,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void crearAnimes(ArrayList<Anime> animeList) {
+    public void crearCardAnimes(ArrayList<Anime> animeList) {
         HorizontalScrollView horizontalScrollView = new HorizontalScrollView(this);
 //        horizontalScrollView.setId(R.id.scroll_animes_1);
         horizontalScrollView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));

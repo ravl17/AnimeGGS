@@ -77,25 +77,13 @@ public class BarraBusquedaHelper {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 for (DataSnapshot animeSnapshot : dataSnapshot.getChildren()) {
-                    String caratula = animeSnapshot.child("caratula").getValue(String.class);
-                    String nombre = animeSnapshot.child("nombre").getValue(String.class);
-                    String estudio = animeSnapshot.child("estudio").getValue(String.class);
-                    String generos = animeSnapshot.child("generos").getValue(String.class);
-                    String descripcion = animeSnapshot.child("descripcion").getValue(String.class);
-
-                    ArrayList<Episodio> episodios = new ArrayList<>();
-                    int cont = 0;
-                    for (DataSnapshot episodioSnapshot : animeSnapshot.child("episodios").getChildren()) {
-                        String enlaceEpisodio = episodioSnapshot.child("ep").getValue(String.class);
-//                        int numero = episodioSnapshot.child("numero").getValue(Integer.class);
-                        Episodio episodio = new Episodio(cont, "" + cont, enlaceEpisodio);
-                        episodios.add(episodio);
-                        cont++;
-                    }
-                    animeList.add(new Anime(nombre, caratula, estudio, generos, descripcion, episodios));
-
+                    Anime anime = animeSnapshot.getValue(Anime.class);
+                    Log.d("TAG", "onDataChange: "+anime.toString());
+                    animeList.add(anime);
                 }
+
 
             }
 
@@ -104,6 +92,7 @@ public class BarraBusquedaHelper {
                 // Handle error
             }
         });
+
     }
 }
 

@@ -1,29 +1,34 @@
 package com.example.animeggs.Objetos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Episodio implements Serializable {
-    private int numero;
-    private String titulo;
-    private String enlaceEpisodio;
+    private String ep;
+    private ArrayList<String> usuariosVisto;
 
-    public Episodio(int numero, String titulo, String enlaceEpisodio) {
-        this.numero = numero;
-        this.titulo = titulo;
-        this.enlaceEpisodio = enlaceEpisodio;
+    public Episodio() {
     }
 
-    public int getNumero() {
-        return numero;
+    public Episodio(String ep, ArrayList<String> usuariosVisto) {
+        this.ep = ep;
+        this.usuariosVisto = usuariosVisto;
     }
 
-
-    public String getTitulo() {
-        return titulo;
-    }
-    public String getEnlaceEpisodio() {
-        return enlaceEpisodio;
+    public String getEp() {
+        return ep;
     }
 
+    public ArrayList<String> getUsuariosVisto() {
+        return usuariosVisto;
+    }
+
+    public void setEp(String ep) {
+        this.ep = ep;
+    }
+
+    public void setUsuariosVisto(ArrayList<String> usuariosVisto) {
+        this.usuariosVisto = usuariosVisto;
+    }
 }
 
