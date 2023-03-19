@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         // Initialize the Firebase database reference
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("animes");
-        Log.d("Teste", "onCreate: "+ref.get());
 
 //        ref.addValueEventListener(new ValueEventListener() {
 //            @Override
@@ -80,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
                 for (DataSnapshot animeSnapshot : dataSnapshot.getChildren()) {
                     Anime anime = animeSnapshot.getValue(Anime.class);
-                    Log.d("TAG", "onDataChange: "+anime.toString());
                     animeList.add(anime);
                 }
 
@@ -117,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
             cardAnime.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("Info",anime.getNombre());
                     Intent intent = new Intent(v.getContext(), AnimeDetailsActivity.class);
                     intent.putExtra("anime_nombre", anime.getNombre());
                     intent.putExtra("anime_caratula", anime.getCaratula());
@@ -141,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
         ViewGroup rootView = this.findViewById(R.id.layout_scroll_vertical);
         horizontalScrollView.addView(linearLayout);
         rootView.addView(horizontalScrollView);
-        Log.d("aa", "crearAnimes: Aaa");
     }
 
 

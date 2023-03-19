@@ -36,7 +36,7 @@ public class BarraBusquedaHelper {
         getAnimeList();
         RecyclerView recyclerView = activity.findViewById(R.id.recycler_view_anime_search);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-        animeSearchAdapter = new AnimeSearchAdapter(animeList);
+        animeSearchAdapter = new AnimeSearchAdapter(animeList, activity);
         recyclerView.setAdapter(animeSearchAdapter);
 
         // Set up the query text listener
@@ -80,7 +80,6 @@ public class BarraBusquedaHelper {
 
                 for (DataSnapshot animeSnapshot : dataSnapshot.getChildren()) {
                     Anime anime = animeSnapshot.getValue(Anime.class);
-                    Log.d("TAG", "onDataChange: "+anime.toString());
                     animeList.add(anime);
                 }
 
