@@ -58,6 +58,8 @@ public class BarraBusquedaHelper {
         searchView.setOnQueryTextFocusChangeListener((view, hasFocus) -> {
             if (!hasFocus) {
                 // Clear the adapter and hide the RecyclerView when the search view loses focus
+                searchView.setQuery("", false);
+                searchView.setIconified(true);
                 recyclerView.setVisibility(View.GONE);
             } else {
                 recyclerView.setVisibility(View.VISIBLE);

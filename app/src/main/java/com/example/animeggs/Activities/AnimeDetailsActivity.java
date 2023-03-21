@@ -10,10 +10,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.animeggs.Objetos.Anime;
 import com.example.animeggs.Objetos.BarraBusquedaHelper;
 import com.example.animeggs.Objetos.Episodio;
 import com.example.animeggs.Objetos.EpisodioAdapter;
 import com.example.animeggs.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayInputStream;
@@ -26,6 +32,8 @@ public class AnimeDetailsActivity extends AppCompatActivity {
     private TextView textViewNombre;
     private TextView textViewDescripcion;
     private RecyclerView episodiosRecyclerView;
+    private Anime anime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,15 +41,36 @@ public class AnimeDetailsActivity extends AppCompatActivity {
 
         BarraBusquedaHelper.setupSearchBar(this);
         Intent intent = getIntent();
+        String titulo = intent.getStringExtra("anime_nombre");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("animes");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
+                for (DataSnapshot animeSnapshot : dataSnapshot.getChildren()) {
+                    String nombre = animeSnapshot.child("nombre").getValue(String.class);
+                    if (titulo.contentEquals(nombre)) {
+                        anime = animeSnapshot.getValue(Anime.class);
+                    }
+                }
+                setAnimeDetails(anime);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Handle error
+            }
+        });
+
+    }
+    public void setAnimeDetails (Anime anime){
         //Creamos el titulo del anime
         textViewNombre = findViewById(R.id.anime_title);
-        String titulo = intent.getStringExtra("anime_nombre");
-        textViewNombre.setText(titulo);
-
+        textViewNombre.setText(anime.getNombre());
         //Creamos la descripcion del anime
         textViewDescripcion = findViewById(R.id.anime_descripcion);
-        String descripcion = intent.getStringExtra("anime_descripcion");
+        String descripcion = anime.getDescripcion();
         TextView animeReadMore = findViewById(R.id.anime_read_more);
         textViewDescripcion.setText(descripcion);
         if (descripcion.split("\\s+").length > 30) {
@@ -57,25 +86,14 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         }
         //Creamos la caratula del anime
         imageView = findViewById(R.id.anime_poster);
-        String imageResId = intent.getStringExtra("anime_caratula");
+        String imageResId = anime.getImg();
         Picasso.get().load(imageResId).into(imageView);
-
         //Creamos los episodios del anime
         episodiosRecyclerView = findViewById(R.id.recycler_view_episodios);
         episodiosRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        byte[] receivedByteArray = intent.getByteArrayExtra("anime_episodios");
-        ByteArrayInputStream bais = new ByteArrayInputStream(receivedByteArray);
-        ObjectInputStream ois = null;
-        ArrayList<Episodio> receivedStringArray;
-        try {
-            ois = new ObjectInputStream(bais);
-            receivedStringArray = (ArrayList<Episodio>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        ArrayList<Episodio> episodios = receivedStringArray;
-        EpisodioAdapter adapter = new EpisodioAdapter(episodios,this);
+        ArrayList<Episodio> episodios = anime.getEpisodios();
+        EpisodioAdapter adapter = new EpisodioAdapter(episodios, this);
         episodiosRecyclerView.setAdapter(adapter);
     }
-
 }
+
