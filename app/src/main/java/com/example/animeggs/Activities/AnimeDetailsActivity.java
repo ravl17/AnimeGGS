@@ -61,7 +61,8 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         });
 
     }
-    public void setAnimeDetails (Anime anime){
+
+    public void setAnimeDetails(Anime anime) {
         //Creamos el titulo del anime
         textViewNombre = findViewById(R.id.anime_title);
         textViewNombre.setText(anime.getNombre());

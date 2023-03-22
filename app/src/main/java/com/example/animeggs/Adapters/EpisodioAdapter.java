@@ -18,8 +18,9 @@ import com.example.animeggs.Activities.VerEpisodio;
 import java.util.List;
 
 public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.EpisodioViewHolder> {
-    private  Context context;
+    private Context context;
     private List<Episodio> episodios;
+
     public EpisodioAdapter(List<Episodio> episodios, Context context) {
         this.episodios = episodios;
         this.context = context;

@@ -17,24 +17,26 @@ import com.example.animeggs.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnimeSearchAdapter extends RecyclerView.Adapter<AnimeSearchAdapter.AnimeViewHolder> {
+public class AnimeSearchAdapter extends RecyclerView.Adapter<AnimeSearchAdapter.AnimeSearchViewHolder> {
     private Context context;
     private List<Anime> animeList;
     private List<Anime> filteredAnimeList;
-    public AnimeSearchAdapter(List<Anime> animeList,Context context) {
+
+    public AnimeSearchAdapter(List<Anime> animeList, Context context) {
         this.animeList = animeList;
         this.filteredAnimeList = new ArrayList<>(animeList);
-        this.context=context;
+        this.context = context;
     }
+
     @Override
-    public AnimeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AnimeSearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.anime_search, parent, false);
 
-        return new AnimeViewHolder(view);
+        return new AnimeSearchViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(AnimeViewHolder holder, int position) {
+    public void onBindViewHolder(AnimeSearchViewHolder holder, int position) {
         Anime anime = filteredAnimeList.get(position);
 
         holder.titleTextView.setText(anime.getNombre());
@@ -69,11 +71,11 @@ public class AnimeSearchAdapter extends RecyclerView.Adapter<AnimeSearchAdapter.
         notifyDataSetChanged();
     }
 
-    public static class AnimeViewHolder extends RecyclerView.ViewHolder {
+    public class AnimeSearchViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
         LinearLayout linearLayout;
 
-        public AnimeViewHolder(View itemView) {
+        public AnimeSearchViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.text_view_anime_search_nombre);
             linearLayout = itemView.findViewById(R.id.anime_search_layout);
