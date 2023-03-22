@@ -4,8 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.animeggs.Adapters.AnimeScrollAdapter;
 import com.example.animeggs.Objetos.Anime;
@@ -16,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -26,11 +33,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         ArrayList<Anime> animeList = new ArrayList<>();
 
         BarraBusquedaHelper.setupSearchBar(this);
-        // Initialize the Firebase database reference
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("animes");
 
@@ -55,12 +61,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void crearCardAnimes(ArrayList<Anime> animeList) {
-        LinearLayout layout = findViewById(R.id.layout_scroll_vertical);
         RecyclerView recyclerView = new RecyclerView(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        AnimeScrollAdapter adapter = new AnimeScrollAdapter(animeList, this);
+
+        AnimeScrollAdapter adapter = new AnimeScrollAdapter(animeList,this);
         recyclerView.setAdapter(adapter);
+
+        LinearLayout layout = findViewById(R.id.layout_scroll_vertical);
         layout.addView(recyclerView);
     }
+
 
 }

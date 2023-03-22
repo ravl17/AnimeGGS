@@ -84,6 +84,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         }
         //Creamos la caratula del anime
         imageView = findViewById(R.id.anime_poster);
+        imageView.getLayoutParams().height=this.getResources().getDisplayMetrics().heightPixels/3;
         String imageResId = anime.getImg();
         Picasso.get().load(imageResId).into(imageView);
         //Creamos los episodios del anime

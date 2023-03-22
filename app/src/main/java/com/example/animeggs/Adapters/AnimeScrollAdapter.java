@@ -2,6 +2,7 @@ package com.example.animeggs.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,6 @@ public class AnimeScrollAdapter extends RecyclerView.Adapter<AnimeScrollAdapter.
     @Override
     public AnimeScrollViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         CardView cardAnime = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_small_anime, null);
-
         return new AnimeScrollViewHolder(cardAnime);
     }
 
@@ -66,6 +66,9 @@ public class AnimeScrollAdapter extends RecyclerView.Adapter<AnimeScrollAdapter.
         public AnimeScrollViewHolder(CardView v) {
             super(v);
             cardLayout = v.findViewById(R.id.card_layout);
+            int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
+            cardLayout.getLayoutParams().width = (int) (screenWidth /2.5);
+            cardLayout.getLayoutParams().height = (int) (screenWidth*0.68);
             cardCaratula = v.findViewById(R.id.card_caratula);
             cardNombre = v.findViewById(R.id.card_nombre);
         }
