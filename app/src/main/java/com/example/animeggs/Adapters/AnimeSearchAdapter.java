@@ -1,4 +1,4 @@
-package com.example.animeggs.Objetos;
+package com.example.animeggs.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,15 +8,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.animeggs.Activities.AnimeDetailsActivity;
+import com.example.animeggs.Objetos.Anime;
 import com.example.animeggs.R;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 

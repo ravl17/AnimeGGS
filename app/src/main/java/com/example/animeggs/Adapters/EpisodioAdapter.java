@@ -1,4 +1,4 @@
-package com.example.animeggs.Objetos;
+package com.example.animeggs.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.animeggs.Objetos.Episodio;
 import com.example.animeggs.R;
 import com.example.animeggs.Activities.VerEpisodio;
 

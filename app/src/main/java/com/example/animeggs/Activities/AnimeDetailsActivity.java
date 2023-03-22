@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.animeggs.Objetos.Anime;
-import com.example.animeggs.Objetos.BarraBusquedaHelper;
+import com.example.animeggs.Adapters.BarraBusquedaHelper;
 import com.example.animeggs.Objetos.Episodio;
-import com.example.animeggs.Objetos.EpisodioAdapter;
+import com.example.animeggs.Adapters.EpisodioAdapter;
 import com.example.animeggs.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,9 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class AnimeDetailsActivity extends AppCompatActivity {

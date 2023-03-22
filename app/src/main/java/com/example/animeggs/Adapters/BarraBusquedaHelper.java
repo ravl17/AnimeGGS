@@ -1,7 +1,6 @@
-package com.example.animeggs.Objetos;
+package com.example.animeggs.Adapters;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -9,6 +8,8 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.animeggs.Adapters.AnimeSearchAdapter;
+import com.example.animeggs.Objetos.Anime;
 import com.example.animeggs.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
