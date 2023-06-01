@@ -7,6 +7,8 @@ import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.animeggs.Adapters.BarraBusquedaHelper;
+import com.example.animeggs.Adapters.NavigationBarHelper;
 import com.example.animeggs.R;
 
 public class VerEpisodio extends AppCompatActivity {
@@ -15,6 +17,7 @@ public class VerEpisodio extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_episodio);
+        NavigationBarHelper.setupNavigationBar(this);
         Intent intent = getIntent();
         webView = findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);

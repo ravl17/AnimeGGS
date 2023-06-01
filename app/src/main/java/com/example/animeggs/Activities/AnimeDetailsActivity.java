@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.animeggs.Adapters.NavigationBarHelper;
 import com.example.animeggs.Objetos.Anime;
 import com.example.animeggs.Adapters.BarraBusquedaHelper;
 import com.example.animeggs.Objetos.Episodio;
@@ -37,6 +38,8 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_anime_details);
 
         BarraBusquedaHelper.setupSearchBar(this);
+        NavigationBarHelper.setupNavigationBar(this);
+
         Intent intent = getIntent();
         String titulo = intent.getStringExtra("anime_nombre");
         FirebaseDatabase database = FirebaseDatabase.getInstance();

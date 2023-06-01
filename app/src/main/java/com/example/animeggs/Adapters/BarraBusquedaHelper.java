@@ -1,6 +1,7 @@
 package com.example.animeggs.Adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -52,7 +53,12 @@ public class BarraBusquedaHelper {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                animeSearchAdapter.filter(newText);
+                Log.d("TAG", "onQueryTextChange: "+newText);
+                if(!newText.trim().contentEquals("")){
+                    animeSearchAdapter.filter(newText);
+                }else {
+                    animeSearchAdapter.filter("zzzzzzzzzzzzzzzzzzzzzzzzzzz");
+                }
                 return true;
             }
         });
@@ -85,7 +91,6 @@ public class BarraBusquedaHelper {
                     Anime anime = animeSnapshot.getValue(Anime.class);
                     animeList.add(anime);
                 }
-
 
             }
 

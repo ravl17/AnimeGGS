@@ -2,4 +2,7 @@
     <string name="app_name">AnimeGGS</string>
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bottom_menu_page_1">Inicio</string>
+    <string name="bottom_menu_page_2">Busqueda</string>
+    <string name="bottom_menu_page_3">Perfil</string>
 </resources>

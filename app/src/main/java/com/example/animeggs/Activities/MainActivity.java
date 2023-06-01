@@ -1,6 +1,7 @@
 package com.example.animeggs.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.animeggs.Adapters.AnimeScrollAdapter;
+import com.example.animeggs.Adapters.NavigationBarHelper;
 import com.example.animeggs.Objetos.Anime;
 import com.example.animeggs.Adapters.BarraBusquedaHelper;
 import com.example.animeggs.R;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Anime> animeList = new ArrayList<>();
 
         BarraBusquedaHelper.setupSearchBar(this);
+        NavigationBarHelper.setupNavigationBar(this);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("animes");
@@ -50,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
                     animeList.add(anime);
                 }
 
+                crearCardAnimes(animeList);
+                crearCardAnimes(animeList);
+                crearCardAnimes(animeList);
                 crearCardAnimes(animeList);
 
             }
@@ -69,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         LinearLayout layout = findViewById(R.id.layout_scroll_vertical);
-        layout.addView(recyclerView);
+        layout.addView(recyclerView,1);
     }
 
 
