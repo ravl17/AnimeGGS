@@ -24,6 +24,11 @@
             android:label="Ver Episodio"
             android:configChanges="orientation|screenSize">
         </activity>
+        <activity
+            android:name=".Activities.BusquedaAnimes"
+            android:label="Busqueda Animes"
+            android:configChanges="orientation|screenSize">
+        </activity>
 
     </application>
 
