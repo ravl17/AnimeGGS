@@ -67,8 +67,8 @@ public class AnimeScrollAdapter extends RecyclerView.Adapter<AnimeScrollAdapter.
             super(v);
             cardLayout = v.findViewById(R.id.card_layout);
             int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
-            cardLayout.getLayoutParams().width = (int) (screenWidth /2.5);
-            cardLayout.getLayoutParams().height = (int) (screenWidth*0.68);
+            cardLayout.getLayoutParams().width = (int) (screenWidth /2.81);
+            cardLayout.getLayoutParams().height = (int) (screenWidth*0.60);
             cardCaratula = v.findViewById(R.id.card_caratula);
             cardNombre = v.findViewById(R.id.card_nombre);
         }
