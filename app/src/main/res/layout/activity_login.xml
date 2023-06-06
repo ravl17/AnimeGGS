@@ -30,7 +30,8 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
             android:hint="Email"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -45,7 +46,8 @@
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/white"
             android:hint="Contraseña"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ProgressBar
@@ -68,9 +70,18 @@
         android:textStyle="bold"
         android:textSize="20dp"
         android:gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/registerNow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_singIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:text="Iniciar con Google"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white" />
 
 </LinearLayout>
