@@ -93,8 +93,8 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         //Creamos los episodios del anime
         episodiosRecyclerView = findViewById(R.id.recycler_view_episodios);
         episodiosRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Episodio> episodios = anime.getEpisodios();
-        EpisodioAdapter adapter = new EpisodioAdapter(episodios, this);
+
+        EpisodioAdapter adapter = new EpisodioAdapter(anime,this);
         episodiosRecyclerView.setAdapter(adapter);
     }
 }

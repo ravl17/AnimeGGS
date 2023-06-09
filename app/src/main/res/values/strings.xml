@@ -5,4 +5,8 @@
     <string name="bottom_menu_page_1">Inicio</string>
     <string name="bottom_menu_page_2">Busqueda</string>
     <string name="bottom_menu_page_3">Perfil</string>
+
+    <string name="navigation_prev_episodio">Anterior Episodio</string>
+    <string name="navigation_marcar_visto">Visto</string>
+    <string name="navigation_next_episodio">Siguiente Episodio</string>
 </resources>

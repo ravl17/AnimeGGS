@@ -21,6 +21,8 @@ import com.example.animeggs.Objetos.Anime;
 import com.example.animeggs.Adapters.BarraBusquedaHelper;
 import com.example.animeggs.Objetos.Usuario;
 import com.example.animeggs.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,13 +39,14 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     Usuario usuarioActivo = new Usuario();
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mAuth= FirebaseAuth.getInstance();
         ArrayList<Anime> animeList = new ArrayList<>();
 
         BarraBusquedaHelper.setupSearchBar(this);
@@ -77,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     Usuario usuario = userSnapshot.getValue(Usuario.class);
 
                     //Esto seria despues del registro
-                    if (usuario.getNick().contentEquals("DGB_012")) {
+                    if (usuario.getCorreo().contentEquals(mAuth.getCurrentUser().getEmail())) {
                         usuarioActivo.setNick(usuario.getNick());
                         usuarioActivo.setCorreo(usuario.getCorreo());
                         usuarioActivo.setSiguiendo(usuario.getSiguiendo());
@@ -100,26 +103,31 @@ public class MainActivity extends AppCompatActivity {
         crearCardAnimes("Aventuras", crearListaAnimesPorGenero(animeList, "Aventuras"));
         crearCardAnimes("Sobrenatural", crearListaAnimesPorGenero(animeList, "Sobrenatural"));
         crearCardAnimes("Accion", crearListaAnimesPorGenero(animeList, "Accion"));
+
         crearCardAnimes("Siguiendo", crearListaAnimesSiguiendoUsuario(animeList));
     }
 
     public void crearCardAnimes(String nombreListaAnimes, ArrayList<Anime> animeList) {
-        RecyclerView recyclerView = new RecyclerView(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        AnimeScrollAdapter adapter = new AnimeScrollAdapter(animeList, this);
-        recyclerView.setAdapter(adapter);
+        if(animeList!=null){
+            RecyclerView recyclerView = new RecyclerView(this);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        LinearLayout layout = findViewById(R.id.layout_scroll_vertical);
-        TextView textView = new TextView(this);
-        textView.setText(nombreListaAnimes);
-        textView.setTextAppearance(R.style.TextAppearance_AppCompat_Title);
-        textView.setPadding(20, 20, 20, 20);
-        layout.addView(recyclerView, 1);
-        layout.addView(textView, 1);
+            AnimeScrollAdapter adapter = new AnimeScrollAdapter(animeList, this);
+            recyclerView.setAdapter(adapter);
+
+            LinearLayout layout = findViewById(R.id.layout_scroll_vertical);
+            TextView textView = new TextView(this);
+            textView.setText(nombreListaAnimes);
+            textView.setTextAppearance(R.style.TextAppearance_AppCompat_Title);
+            textView.setPadding(20, 20, 20, 20);
+            layout.addView(recyclerView, 1);
+            layout.addView(textView, 1);
+        }
     }
 
     public ArrayList<Anime> crearListaAnimesSiguiendoUsuario(ArrayList<Anime> animeList) {
+        if(usuarioActivo.getSiguiendo()!=null){
         ArrayList<Anime> animeSiguiendoUsuario = new ArrayList<>();
         for (Usuario.SiguiendoItem animeSiguiendo : usuarioActivo.getSiguiendo()) {
             for (Anime anime : animeList) {
@@ -129,6 +137,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return animeSiguiendoUsuario;
+        }else{
+            return null;
+        }
+
     }
 
     public ArrayList<Anime> crearListaAnimesPorGenero(ArrayList<Anime> animeList, String genero) {

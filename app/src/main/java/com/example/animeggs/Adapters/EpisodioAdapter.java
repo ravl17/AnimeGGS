@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.animeggs.Objetos.Anime;
 import com.example.animeggs.Objetos.Episodio;
 import com.example.animeggs.R;
 import com.example.animeggs.Activities.VerEpisodio;
@@ -20,9 +21,11 @@ import java.util.List;
 public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.EpisodioViewHolder> {
     private Context context;
     private List<Episodio> episodios;
+    private Anime anime;
 
-    public EpisodioAdapter(List<Episodio> episodios, Context context) {
-        this.episodios = episodios;
+    public EpisodioAdapter(Anime anime, Context context) {
+        this.episodios = anime.getEpisodios();
+        this.anime = anime;
         this.context = context;
     }
 
@@ -40,7 +43,9 @@ public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.Episod
         holder.textViewEpisodioTitulo.setText("episodio.getTitulo()");
         holder.episodio_layout.setOnClickListener(v -> {
             Intent intent = new Intent(context, VerEpisodio.class);
-            intent.putExtra("enlace_episodio", episodio.getEp());
+            intent.putExtra("enlaceEpisodio", episodio.getEp());
+            intent.putExtra("anime", anime.getNombre());
+            intent.putExtra("numeroEpisodio", ""+position);
             context.startActivity(intent);
         });
     }

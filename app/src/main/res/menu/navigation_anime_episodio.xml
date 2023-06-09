@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/prev_episodio"
+        android:enabled="true"
+        android:icon="@drawable/baseline_arrow_back_24"
+        android:title="@string/navigation_prev_episodio"/>
+    <item
+        android:id="@+id/marcar_visto"
+        android:enabled="true"
+        android:icon="@drawable/baseline_remove_red_eye_24"
+        android:title="@string/navigation_marcar_visto"/>
+    <item
+        android:id="@+id/next_episodio"
+        android:enabled="true"
+        android:icon="@drawable/baseline_arrow_forward_24"
+        android:title="@string/navigation_next_episodio"/>
+</menu>
