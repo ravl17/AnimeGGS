@@ -53,14 +53,13 @@ public class VerEpisodio extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
 
-        enlaceEpisodio = intent.getStringExtra("enlace_episodio");
+        enlaceEpisodio = intent.getStringExtra("enlaceEpisodio");
+        Log.d("TAG", "enlace: "+enlaceEpisodio);
         webView.loadUrl(enlaceEpisodio);
         anime = intent.getStringExtra("anime");
         numeroEpisodio = intent.getStringExtra("numeroEpisodio");
 
         mAuth = FirebaseAuth.getInstance();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference dbUsers = database.getReference("users");
         btnPrevEpisodio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,16 +95,13 @@ public class VerEpisodio extends AppCompatActivity {
                     if (correo.contentEquals(mAuth.getCurrentUser().getEmail()) && correo != null) {
                         DataSnapshot visualizacionesSnapshot = userSnapshot.child("visualizaciones");
                         for (DataSnapshot serieSnapshot : visualizacionesSnapshot.getChildren()) {
-                            Log.d("TAG", "onDataChange: 1" + (serieSnapshot.child("serie").getValue(String.class)));
-                            Log.d("TAG", "onDataChange: 2" + anime);
 
                             if ((serieSnapshot.child("serie").getValue(String.class)).equals(anime)) {
                                 String epVistos = serieSnapshot.child("epVistos").getValue(String.class);
 
-                                // Check if the episodeToCheck is already in the list of epVistos
-                                List<String> epVistosList = new ArrayList<>();
+                                ArrayList<String> epVistosList = new ArrayList<>();
                                 if (epVistos != null && !epVistos.isEmpty()) {
-                                    epVistosList = Arrays.asList(epVistos.split(","));
+                                    epVistosList = new ArrayList<>(Arrays.asList(epVistos.split(",")));
                                 }
                                 if (epVistosList.size() == 1 && epVistosList.contains(numeroEpisodio)) {
                                     serieSnapshot.child("epVistos").getRef().setValue("");
@@ -118,16 +114,10 @@ public class VerEpisodio extends AppCompatActivity {
                                     String updatedEpVistos = TextUtils.join(",", epVistosList);
                                     serieSnapshot.child("epVistos").getRef().setValue(updatedEpVistos);
                                 }
-
-
-
-
                             }
 
                         }
                     }
-                    DataSnapshot epVistosSnapshot = userSnapshot.child("epVistos");
-                    String series = userSnapshot.child("serie").getValue(String.class);
 
 
                 }
