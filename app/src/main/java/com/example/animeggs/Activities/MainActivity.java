@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mAuth= FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         ArrayList<Anime> animeList = new ArrayList<>();
 
         BarraBusquedaHelper.setupSearchBar(this);
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void crearCardAnimes(String nombreListaAnimes, ArrayList<Anime> animeList) {
 
-        if(animeList!=null){
+        if (animeList != null) {
             RecyclerView recyclerView = new RecyclerView(this);
             recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
@@ -127,17 +127,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public ArrayList<Anime> crearListaAnimesSiguiendoUsuario(ArrayList<Anime> animeList) {
-        if(usuarioActivo.getSiguiendo()!=null){
-        ArrayList<Anime> animeSiguiendoUsuario = new ArrayList<>();
-        for (Usuario.SiguiendoItem animeSiguiendo : usuarioActivo.getSiguiendo()) {
-            for (Anime anime : animeList) {
-                if (animeSiguiendo.getSerie().contentEquals(anime.getNombre())) {
-                    animeSiguiendoUsuario.add(anime);
+        if (usuarioActivo.getSiguiendo() != null) {
+            ArrayList<Anime> animeSiguiendoUsuario = new ArrayList<>();
+            for (Usuario.SiguiendoItem animeSiguiendo : usuarioActivo.getSiguiendo()) {
+                for (Anime anime : animeList) {
+                    if (animeSiguiendo != null) {
+                        if (animeSiguiendo.getSerie().contentEquals(anime.getNombre())) {
+                            animeSiguiendoUsuario.add(anime);
+                        }
+                    }
                 }
             }
-        }
-        return animeSiguiendoUsuario;
-        }else{
+            return animeSiguiendoUsuario;
+        } else {
             return null;
         }
 
