@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import com.example.animeggs.Activities.AnimeDetailsActivity;
 import com.example.animeggs.Activities.BusquedaAnimes;
 import com.example.animeggs.Activities.MainActivity;
+import com.example.animeggs.Activities.Perfil;
 import com.example.animeggs.R;
 import com.google.android.material.bottomnavigation.BottomNavigationMenu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -45,6 +46,12 @@ public class NavigationBarHelper {
                         }
                         break;
                     case R.id.page_3:
+                        if (activity.getClass() != Perfil.class) {
+                            intent = new Intent(activity, Perfil.class);
+                            activity.startActivity(intent);
+                            activity.overridePendingTransition(0, 0);
+                            return true;
+                        }
                         break;
                 }
                 return false;

@@ -39,6 +39,10 @@
             android:name=".Activities.BusquedaAnimes"
             android:configChanges="orientation|screenSize"
             android:label="Busqueda Animes" />
+        <activity
+            android:name=".Activities.Perfil"
+            android:configChanges="orientation|screenSize"
+            android:label="Perfil" />
     </application>
 
 </manifest>

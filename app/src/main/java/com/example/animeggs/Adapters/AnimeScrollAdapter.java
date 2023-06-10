@@ -41,7 +41,6 @@ public class AnimeScrollAdapter extends RecyclerView.Adapter<AnimeScrollAdapter.
     public void onBindViewHolder(@NonNull AnimeScrollViewHolder holder, int position) {
         Anime anime = animeList.get(position);
         Picasso.get().load(anime.getCaratula()).into(holder.cardCaratula);
-
         holder.cardNombre.setText(anime.getNombre());
         holder.cardLayout.setOnClickListener(new View.OnClickListener() {
             @Override

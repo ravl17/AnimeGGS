@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    Usuario usuarioActivo = new Usuario();
+    public Usuario usuarioActivo;
     private FirebaseAuth mAuth;
 
     @Override
@@ -49,12 +49,10 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         ArrayList<Anime> animeList = new ArrayList<>();
 
-        BarraBusquedaHelper.setupSearchBar(this);
-        NavigationBarHelper.setupNavigationBar(this,R.id.page_1);
-
+        NavigationBarHelper.setupNavigationBar(this, R.id.page_1);
+        getUsuarioActivo();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference dbAnimes = database.getReference("animes");
-        DatabaseReference dbUsers = database.getReference("users");
 
         dbAnimes.addValueEventListener(new ValueEventListener() {
             @Override
@@ -72,43 +70,31 @@ public class MainActivity extends AppCompatActivity {
                 // Handle error
             }
         });
-        dbUsers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    Usuario usuario = userSnapshot.getValue(Usuario.class);
-
-                    //Esto seria despues del registro
-                    if (usuario.getCorreo().contentEquals(mAuth.getCurrentUser().getEmail())) {
-                        usuarioActivo.setNick(usuario.getNick());
-                        usuarioActivo.setCorreo(usuario.getCorreo());
-                        usuarioActivo.setSiguiendo(usuario.getSiguiendo());
-                        usuarioActivo.setVisualizaciones(usuario.getVisualizaciones());
-
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Handle error
-            }
-        });
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = null;
+        intent = new Intent(this, MainActivity.class);
+        this.startActivity(intent);
+        this.overridePendingTransition(0, 0);
+
+    }
+
+
     public void crearListaAnimes(ArrayList<Anime> animeList) {
-        crearCardAnimes("Aventuras", crearListaAnimesPorGenero(animeList, "Aventuras"));
+        crearCardAnimes("Siguiendo", crearListaAnimesSiguiendoUsuario(animeList));
         crearCardAnimes("Sobrenatural", crearListaAnimesPorGenero(animeList, "Sobrenatural"));
         crearCardAnimes("Accion", crearListaAnimesPorGenero(animeList, "Accion"));
+        crearCardAnimes("Aventuras", crearListaAnimesPorGenero(animeList, "Aventuras"));
 
-        crearCardAnimes("Siguiendo", crearListaAnimesSiguiendoUsuario(animeList));
     }
 
     public void crearCardAnimes(String nombreListaAnimes, ArrayList<Anime> animeList) {
 
-        if (animeList != null) {
+        if (animeList != null && animeList.size() != 0) {
             RecyclerView recyclerView = new RecyclerView(this);
             recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
@@ -120,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
             textView.setText(nombreListaAnimes);
             textView.setTextAppearance(R.style.TextAppearance_AppCompat_Title);
             textView.setPadding(20, 20, 20, 20);
-            layout.addView(recyclerView, 1);
-            layout.addView(textView, 1);
+            layout.addView(textView);
+            layout.addView(recyclerView);
         }
     }
 
@@ -153,5 +139,33 @@ public class MainActivity extends AppCompatActivity {
         }
         Collections.shuffle(animePorGenero);
         return animePorGenero;
+    }
+
+    public void getUsuarioActivo() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference dbUsers = database.getReference("users");
+        dbUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    Usuario usuario = userSnapshot.getValue(Usuario.class);
+                    if (usuario.getCorreo().contentEquals(mAuth.getCurrentUser().getEmail())) {
+                        usuarioActivo = new Usuario();
+                        usuarioActivo.setNick(usuario.getNick());
+                        usuarioActivo.setCorreo(usuario.getCorreo());
+                        usuarioActivo.setSiguiendo(usuario.getSiguiendo());
+                        usuarioActivo.setVisualizaciones(usuario.getVisualizaciones());
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Handle error
+            }
+        });
     }
 }
