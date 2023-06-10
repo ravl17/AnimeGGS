@@ -40,7 +40,7 @@ public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.Episod
     public void onBindViewHolder(@NonNull EpisodioViewHolder holder, int position) {
         Episodio episodio = episodios.get(position);
         holder.textViewEpisodioNumero.setText("Episodio " + (position+1));
-        holder.textViewEpisodioTitulo.setText("episodio.getTitulo()");
+        holder.textViewEpisodioTitulo.setText("");
         holder.episodio_layout.setOnClickListener(v -> {
             Intent intent = new Intent(context, VerEpisodio.class);
             intent.putExtra("enlaceEpisodio", episodio.getEp());
@@ -65,7 +65,6 @@ public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.Episod
             episodio_layout = itemView.findViewById(R.id.anime_search_layout);
             textViewEpisodioTitulo = itemView.findViewById(R.id.text_view_anime_search_nombre);
             textViewEpisodioNumero = itemView.findViewById(R.id.text_view_episodio_numero);
-
 
         }
 

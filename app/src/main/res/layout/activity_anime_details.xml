@@ -48,13 +48,6 @@
             android:maxLines="3"
             android:ellipsize="end"/>
 
-        <Button
-            android:id="@+id/btnSiguiendo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
-            android:textColor="@color/white" />
-
         <TextView
 
             android:id="@+id/anime_read_more"
@@ -65,7 +58,17 @@
             android:text="Leer más..."
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
-            android:visibility="gone"/>
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnSiguiendo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:background="@color/colorAccent"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
         <!-- Add any other information or UI elements here -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_episodios"

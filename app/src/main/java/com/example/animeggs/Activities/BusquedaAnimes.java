@@ -12,6 +12,7 @@ import com.example.animeggs.Adapters.BarraBusquedaHelper;
 import com.example.animeggs.Adapters.NavigationBarHelper;
 import com.example.animeggs.Objetos.Anime;
 import com.example.animeggs.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,11 +27,12 @@ public class BusquedaAnimes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_busqueda);
 
 
         BarraBusquedaHelper.setupSearchBar(this);
-        NavigationBarHelper.setupNavigationBar(this);
+        NavigationBarHelper.setupNavigationBar(this,R.id.page_2);
+
 
 
     }

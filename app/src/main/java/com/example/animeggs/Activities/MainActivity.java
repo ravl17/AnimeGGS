@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Anime> animeList = new ArrayList<>();
 
         BarraBusquedaHelper.setupSearchBar(this);
-        NavigationBarHelper.setupNavigationBar(this);
+        NavigationBarHelper.setupNavigationBar(this,R.id.page_1);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference dbAnimes = database.getReference("animes");

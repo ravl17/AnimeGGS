@@ -47,7 +47,6 @@ public class VerEpisodio extends AppCompatActivity {
         btnMarcarVisto = findViewById(R.id.btnMarcarVisto);
         btnNextEpisodio = findViewById(R.id.btnNextEpisodio);
 
-        NavigationBarHelper.setupNavigationBar(this);
         Intent intent = getIntent();
         webView = findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);

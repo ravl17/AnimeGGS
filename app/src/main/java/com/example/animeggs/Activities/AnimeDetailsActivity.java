@@ -39,8 +39,6 @@ public class AnimeDetailsActivity extends AppCompatActivity {
     private Button btnSiguiendo;
     private RecyclerView episodiosRecyclerView;
     private Anime anime;
-    private boolean estaSiguiendoElAnime = false;
-    private boolean primerComprobacion = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +46,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_anime_details);
 
         BarraBusquedaHelper.setupSearchBar(this);
-        NavigationBarHelper.setupNavigationBar(this);
+        NavigationBarHelper.setupNavigationBar(this,R.id.page_2);
 
         btnSiguiendo = findViewById(R.id.btnSiguiendo);
 
@@ -78,6 +76,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         ref2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean dejarSeguir = false;
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     String correo = userSnapshot.child("correo").getValue(String.class);
                     if (correo.contentEquals(FirebaseAuth.getInstance().getCurrentUser().getEmail()) && correo != null) {
@@ -87,14 +86,10 @@ public class AnimeDetailsActivity extends AppCompatActivity {
                             if ((serieSnapshot.child("serie").getValue(String.class)).equals(anime.getNombre())) {
                                 Log.d("TAG", "onDataChange: " + serieSnapshot.child("serie").getValue(String.class));
                                 Log.d("TAG", "onDataChange: " + anime.getNombre());
-                                estaSiguiendoElAnime = true;
-                                if (primerComprobacion) {
-                                    primerComprobacion = false;
-                                }
+                                dejarSeguir=true;
                             }
-
-
                         }
+                        cambiarBtnSiguiendo(dejarSeguir);
                     }
 
                 }
@@ -109,7 +104,6 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         btnSiguiendo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAG", "onCreate: " + estaSiguiendoElAnime);
                 seguirAnime();
 
             }
@@ -148,45 +142,45 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         EpisodioAdapter adapter = new EpisodioAdapter(anime, this);
         episodiosRecyclerView.setAdapter(adapter);
     }
-
+    public void cambiarBtnSiguiendo(boolean dejarSeguir){
+        if(!dejarSeguir){
+            btnSiguiendo.setText("SEGUIR");
+        }else{
+            btnSiguiendo.setText("SIGUIENDO");
+        }
+    }
     public void seguirAnime() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference tableRef = database.getReference("users");
         tableRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("TAG", "8888888");
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     String correo = userSnapshot.child("correo").getValue(String.class);
-                    Log.d("TAG", "000000000");
-                    Log.d("TAG", "00000000");
                     if (correo.contentEquals(FirebaseAuth.getInstance().getCurrentUser().getEmail()) && correo != null) {
                         DataSnapshot siguiendoSnapshot = userSnapshot.child("siguiendo");
-                        Log.d("TAG", "1111111");
                         ArrayList<Usuario.SiguiendoItem> newAnimeSiguiendo = new ArrayList<>();
                         for (DataSnapshot serieSnapshot : siguiendoSnapshot.getChildren()) {
                             Usuario.SiguiendoItem siguiendoItem = new Usuario.SiguiendoItem();
                             siguiendoItem.setSerie(serieSnapshot.child("serie").getValue(String.class));
                             newAnimeSiguiendo.add(siguiendoItem);
-                            Log.d("TAG", "55555555");
                         }
-                        Usuario.SiguiendoItem us=null;
+                        Usuario.SiguiendoItem us = null;
                         for (Usuario.SiguiendoItem u : newAnimeSiguiendo) {
                             if (u.getSerie().contentEquals(anime.getNombre())) {
-                                Log.d("TAG", "onDataChange: " + u.getSerie().getClass());
-                                Log.d("TAG", "onDataChange: " + anime.getNombre().getClass());
-                                us= u;
+                                us = u;
                             }
                         }
-                        if (us==null) {
+                        if (us == null) {
                             Usuario.SiguiendoItem siguiendoItem = new Usuario.SiguiendoItem();
                             siguiendoItem.setSerie(anime.getNombre());
                             newAnimeSiguiendo.add(siguiendoItem);
-                        }else{
+                            cambiarBtnSiguiendo(true);
+                        } else {
                             newAnimeSiguiendo.remove(us);
+                            cambiarBtnSiguiendo(false);
                         }
                         siguiendoSnapshot.getRef().setValue(newAnimeSiguiendo);
-                        estaSiguiendoElAnime = !estaSiguiendoElAnime;
                     }
 
                 }
