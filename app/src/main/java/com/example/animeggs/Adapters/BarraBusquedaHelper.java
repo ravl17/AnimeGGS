@@ -45,9 +45,6 @@ public class BarraBusquedaHelper {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Handle the search query
-
-                // Update the adapter with the filtered results
                 return true;
             }
 
@@ -64,9 +61,9 @@ public class BarraBusquedaHelper {
         searchView.setOnQueryTextFocusChangeListener((view, hasFocus) -> {
             if (!hasFocus) {
                 // Clear the adapter and hide the RecyclerView when the search view loses focus
-                searchView.setQuery("", false);
-                searchView.setIconified(true);
-                recyclerView.setVisibility(View.GONE);
+//                searchView.setQuery("", false);
+//                searchView.setIconified(true);
+//                recyclerView.setVisibility(View.GONE);
             } else {
                 recyclerView.setVisibility(View.VISIBLE);
             }

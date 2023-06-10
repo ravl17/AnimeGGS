@@ -51,29 +51,12 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         btnSiguiendo = findViewById(R.id.btnSiguiendo);
 
         Intent intent = getIntent();
-        String titulo = intent.getStringExtra("anime_nombre");
+        anime = intent.getParcelableExtra("anime");
+        anime.setEpisodios(intent.getParcelableArrayListExtra("episodios"));
+        setAnimeDetails(anime);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("animes");
+        DatabaseReference ref = database.getReference("users");
         ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot animeSnapshot : dataSnapshot.getChildren()) {
-                    String nombre = animeSnapshot.child("nombre").getValue(String.class);
-                    if (titulo.contentEquals(nombre)) {
-                        anime = animeSnapshot.getValue(Anime.class);
-                    }
-                }
-                setAnimeDetails(anime);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Handle error
-            }
-        });
-        DatabaseReference ref2 = database.getReference("users");
-        ref2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean dejarSeguir = false;

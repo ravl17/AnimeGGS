@@ -2,8 +2,6 @@ package com.example.animeggs.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +63,7 @@ public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.Episod
 
         public EpisodioViewHolder(@NonNull View itemView) {
             super(itemView);
-            episodio_layout = itemView.findViewById(R.id.anime_search_layout);
+            episodio_layout = itemView.findViewById(R.id.anime_search_layout_s);
             textViewEpisodioTitulo = itemView.findViewById(R.id.text_view_anime_search_nombre);
             textViewEpisodioNumero = itemView.findViewById(R.id.text_view_episodio_numero);
 

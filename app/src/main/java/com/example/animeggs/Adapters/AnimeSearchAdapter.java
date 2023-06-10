@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.animeggs.Activities.AnimeDetailsActivity;
 import com.example.animeggs.Objetos.Anime;
 import com.example.animeggs.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,7 @@ public class AnimeSearchAdapter extends RecyclerView.Adapter<AnimeSearchAdapter.
 
     @Override
     public AnimeSearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.anime_search, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_grande_anime, parent, false);
 
         return new AnimeSearchViewHolder(view);
     }
@@ -38,17 +40,17 @@ public class AnimeSearchAdapter extends RecyclerView.Adapter<AnimeSearchAdapter.
     @Override
     public void onBindViewHolder(AnimeSearchViewHolder holder, int position) {
         Anime anime = filteredAnimeList.get(position);
-
-        holder.titleTextView.setText(anime.getNombre());
+        Picasso.get().load(anime.getImg()).into(holder.cardCaratula);
+        holder.cardNombre.setText(anime.getNombre());
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AnimeDetailsActivity.class);
                 intent.putExtra("anime_nombre", anime.getNombre());
+                intent.putParcelableArrayListExtra("episodios",  anime.getEpisodios());
                 context.startActivity(intent);
             }
         });
-        // Bind other views to corresponding Anime fields here
     }
 
     @Override
@@ -72,12 +74,14 @@ public class AnimeSearchAdapter extends RecyclerView.Adapter<AnimeSearchAdapter.
     }
 
     public class AnimeSearchViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView;
+        ImageView cardCaratula;
+        TextView cardNombre;
         LinearLayout linearLayout;
 
         public AnimeSearchViewHolder(View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.text_view_anime_search_nombre);
+            cardCaratula = itemView.findViewById(R.id.card_caratula);
+            cardNombre = itemView.findViewById(R.id.card_nombre);
             linearLayout = itemView.findViewById(R.id.anime_search_layout);
 
         }

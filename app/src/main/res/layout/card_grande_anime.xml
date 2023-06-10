@@ -7,6 +7,7 @@
     app:cardCornerRadius="8dp">
 
     <LinearLayout
+        android:id="@+id/anime_search_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -15,7 +16,7 @@
             android:id="@+id/card_caratula"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/card_nombre"
@@ -24,15 +25,6 @@
             android:padding="16dp"
             android:text="Nombre"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-        <TextView
-            android:id="@+id/card_genero"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="11dp"
-            android:text="Genero"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/colorDescripcion" />
 
     </LinearLayout>
 
