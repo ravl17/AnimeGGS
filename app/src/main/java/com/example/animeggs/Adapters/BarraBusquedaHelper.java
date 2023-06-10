@@ -53,7 +53,6 @@ public class BarraBusquedaHelper {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.d("TAG", "onQueryTextChange: "+newText);
                 if(!newText.trim().contentEquals("")){
                     animeSearchAdapter.filter(newText);
                 }else {

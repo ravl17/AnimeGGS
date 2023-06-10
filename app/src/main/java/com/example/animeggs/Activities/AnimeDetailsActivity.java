@@ -45,7 +45,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anime_details);
 
-        BarraBusquedaHelper.setupSearchBar(this);
+//        BarraBusquedaHelper.setupSearchBar(this);
         NavigationBarHelper.setupNavigationBar(this,R.id.page_2);
 
         btnSiguiendo = findViewById(R.id.btnSiguiendo);

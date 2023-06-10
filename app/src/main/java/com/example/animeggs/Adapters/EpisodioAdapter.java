@@ -2,6 +2,8 @@ package com.example.animeggs.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.example.animeggs.Objetos.Episodio;
 import com.example.animeggs.R;
 import com.example.animeggs.Activities.VerEpisodio;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.EpisodioViewHolder> {
@@ -40,12 +43,12 @@ public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.Episod
     public void onBindViewHolder(@NonNull EpisodioViewHolder holder, int position) {
         Episodio episodio = episodios.get(position);
         holder.textViewEpisodioNumero.setText("Episodio " + (position+1));
-        holder.textViewEpisodioTitulo.setText("");
         holder.episodio_layout.setOnClickListener(v -> {
             Intent intent = new Intent(context, VerEpisodio.class);
             intent.putExtra("enlaceEpisodio", episodio.getEp());
-            intent.putExtra("anime", anime.getNombre());
             intent.putExtra("numeroEpisodio", ""+position);
+            intent.putExtra("anime", (Serializable) anime);
+            intent.putParcelableArrayListExtra("episodios",  anime.getEpisodios());
             context.startActivity(intent);
         });
     }

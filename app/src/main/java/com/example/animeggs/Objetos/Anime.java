@@ -1,12 +1,15 @@
 package com.example.animeggs.Objetos;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-public class Anime extends ArrayList<Anime> {
+public class Anime extends ArrayList<Anime> implements Parcelable {
     private String caratula;
     private ArrayList<Comentario> comentarios;
     private String descripcion;
@@ -19,16 +22,31 @@ public class Anime extends ArrayList<Anime> {
     private String tipo;
 
 
-    private ArrayList<String> siguiendo; //Provisional hasta que se cambie en base de datos
 
 
-    public ArrayList<String> getSiguiendo() {
-        return siguiendo;
+    protected Anime(Parcel in) {
+        caratula = in.readString();
+        descripcion = in.readString();
+        estado = in.readString();
+        estudio = in.readString();
+        generos = in.readString();
+        img = in.readString();
+        nombre = in.readString();
+        tipo = in.readString();
     }
 
-    public void setSiguiendo(ArrayList<String> siguiendo) {
-        this.siguiendo = siguiendo;
-    }
+    public static final Creator<Anime> CREATOR = new Creator<Anime>() {
+        @Override
+        public Anime createFromParcel(Parcel in) {
+            return new Anime(in);
+        }
+
+        @Override
+        public Anime[] newArray(int size) {
+            return new Anime[size];
+        }
+    };
+
 
     public Anime() {
     }
@@ -44,7 +62,6 @@ public class Anime extends ArrayList<Anime> {
         this.img = img;
         this.nombre = nombre;
         this.tipo = tipo;
-        this.siguiendo = siguiendo;
     }
 
     public String getCaratula() {
@@ -125,5 +142,22 @@ public class Anime extends ArrayList<Anime> {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(caratula);
+        parcel.writeString(descripcion);
+        parcel.writeString(estado);
+        parcel.writeString(estudio);
+        parcel.writeString(generos);
+        parcel.writeString(img);
+        parcel.writeString(nombre);
+        parcel.writeString(tipo);
     }
 }

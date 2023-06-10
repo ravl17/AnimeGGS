@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
                         usuarioActivo.setSiguiendo(usuario.getSiguiendo());
                         usuarioActivo.setVisualizaciones(usuario.getVisualizaciones());
 
-                        Log.d("TAG", "onDataChange: " + usuarioActivo.getVisualizaciones().get(0).getSerie());
                     }
                 }
 

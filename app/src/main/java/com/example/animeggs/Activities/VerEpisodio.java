@@ -1,7 +1,9 @@
 package com.example.animeggs.Activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.animeggs.Adapters.BarraBusquedaHelper;
 import com.example.animeggs.Adapters.NavigationBarHelper;
 import com.example.animeggs.Objetos.Anime;
+import com.example.animeggs.Objetos.Episodio;
 import com.example.animeggs.Objetos.Usuario;
 import com.example.animeggs.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +33,8 @@ import java.util.List;
 
 public class VerEpisodio extends AppCompatActivity {
     private String enlaceEpisodio;
-    private String anime;
+    private Anime anime;
+    private ArrayList<Episodio> episodios;
     private String numeroEpisodio;
     private WebView webView;
 
@@ -48,21 +52,33 @@ public class VerEpisodio extends AppCompatActivity {
         btnNextEpisodio = findViewById(R.id.btnNextEpisodio);
 
         Intent intent = getIntent();
+        enlaceEpisodio = intent.getStringExtra("enlaceEpisodio");
+        numeroEpisodio = intent.getStringExtra("numeroEpisodio");
+        anime = intent.getParcelableExtra("anime");
+        episodios = intent.getParcelableArrayListExtra("episodios");
+
         webView = findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
-
-        enlaceEpisodio = intent.getStringExtra("enlaceEpisodio");
-        Log.d("TAG", "enlace: "+enlaceEpisodio);
         webView.loadUrl(enlaceEpisodio);
-        anime = intent.getStringExtra("anime");
-        numeroEpisodio = intent.getStringExtra("numeroEpisodio");
 
         mAuth = FirebaseAuth.getInstance();
         btnPrevEpisodio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle settings navigation
+                if (Integer.parseInt(numeroEpisodio) != 0) {
+                    Intent intent = new Intent(v.getContext(), VerEpisodio.class);
+                    intent.putExtra("enlaceEpisodio", episodios.get(Integer.parseInt(numeroEpisodio) - 1).getEp());
+                    intent.putExtra("numeroEpisodio", "" + (Integer.parseInt(numeroEpisodio) - 1));
+                    intent.putExtra("anime", (Parcelable) anime);
+                    intent.putParcelableArrayListExtra("episodios", episodios);
+
+                    v.getContext().startActivity(intent);
+                    ((Activity) v.getContext()).overridePendingTransition(0, 0);
+                    ((Activity) v.getContext()).finish();
+                }
+
+
             }
         });
         btnMarcarVisto.setOnClickListener(new View.OnClickListener() {
@@ -76,10 +92,31 @@ public class VerEpisodio extends AppCompatActivity {
         btnNextEpisodio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle settings navigation
+                if (Integer.parseInt(numeroEpisodio) < episodios.size() - 1) {
+                    Log.d("TAG", "555555555555555: " + Integer.parseInt(numeroEpisodio));
+                    Log.d("TAG", "555555555555555: " + episodios.size());
+                    Intent intent = new Intent(v.getContext(), VerEpisodio.class);
+                    intent.putExtra("enlaceEpisodio", episodios.get(Integer.parseInt(numeroEpisodio) + 1).getEp());
+                    intent.putExtra("numeroEpisodio", "" + (Integer.parseInt(numeroEpisodio) + 1));
+                    intent.putExtra("anime", (Parcelable) anime);
+                    intent.putParcelableArrayListExtra("episodios", episodios);
+
+                    v.getContext().startActivity(intent);
+                    ((Activity) v.getContext()).overridePendingTransition(0, 0);
+                    ((Activity) v.getContext()).finish();
+                }
             }
         });
-
+        if (Integer.parseInt(numeroEpisodio) == episodios.size() - 1) {
+            btnNextEpisodio.setEnabled(false);
+            btnNextEpisodio.setText("");
+            btnNextEpisodio.setCompoundDrawables(null, null, null, null);
+        }
+        if (Integer.parseInt(numeroEpisodio) == 0) {
+            btnPrevEpisodio.setEnabled(false);
+            btnPrevEpisodio.setText("");
+            btnPrevEpisodio.setCompoundDrawables(null, null, null, null);
+        }
 
     }
 
@@ -93,17 +130,25 @@ public class VerEpisodio extends AppCompatActivity {
                     String correo = userSnapshot.child("correo").getValue(String.class);
                     if (correo.contentEquals(mAuth.getCurrentUser().getEmail()) && correo != null) {
                         DataSnapshot visualizacionesSnapshot = userSnapshot.child("visualizaciones");
+                        ArrayList<Usuario.VisualizacionItem> newVisualizacionAnime = new ArrayList<>();
+
                         for (DataSnapshot serieSnapshot : visualizacionesSnapshot.getChildren()) {
 
-                            if ((serieSnapshot.child("serie").getValue(String.class)).equals(anime)) {
-                                String epVistos = serieSnapshot.child("epVistos").getValue(String.class);
-
+                            Usuario.VisualizacionItem visualizacionItem = new Usuario.VisualizacionItem();
+                            visualizacionItem.setSerie(serieSnapshot.child("serie").getValue(String.class));
+                            visualizacionItem.setEpVistos(serieSnapshot.child("epVistos").getValue(String.class));
+                            newVisualizacionAnime.add(visualizacionItem);
+                        }
+                        boolean estaEnBD = false;
+                        for (Usuario.VisualizacionItem n : newVisualizacionAnime) {
+                            if (n.getSerie().equals(anime.getNombre())) {
+                                estaEnBD = true;
                                 ArrayList<String> epVistosList = new ArrayList<>();
-                                if (epVistos != null && !epVistos.isEmpty()) {
-                                    epVistosList = new ArrayList<>(Arrays.asList(epVistos.split(",")));
+                                if (n.getEpVistos() != null && !n.getEpVistos().isEmpty()) {
+                                    epVistosList = new ArrayList<>(Arrays.asList(n.getEpVistos().split(",")));
                                 }
                                 if (epVistosList.size() == 1 && epVistosList.contains(numeroEpisodio)) {
-                                    serieSnapshot.child("epVistos").getRef().setValue("");
+                                    n.setEpVistos("");
                                 } else {
                                     if (epVistosList.contains(numeroEpisodio)) {
                                         epVistosList.remove(numeroEpisodio);
@@ -111,11 +156,17 @@ public class VerEpisodio extends AppCompatActivity {
                                         epVistosList.add(numeroEpisodio);
                                     }
                                     String updatedEpVistos = TextUtils.join(",", epVistosList);
-                                    serieSnapshot.child("epVistos").getRef().setValue(updatedEpVistos);
+                                    n.setEpVistos(updatedEpVistos);
                                 }
                             }
-
                         }
+                        if (!estaEnBD) {
+                            Usuario.VisualizacionItem v = new Usuario.VisualizacionItem();
+                            v.setSerie(anime.getNombre());
+                            v.setEpVistos(numeroEpisodio);
+                            newVisualizacionAnime.add(v);
+                        }
+                        visualizacionesSnapshot.getRef().setValue(newVisualizacionAnime);
                     }
 
 

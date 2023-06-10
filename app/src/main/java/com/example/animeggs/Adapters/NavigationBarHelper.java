@@ -47,12 +47,9 @@ public class NavigationBarHelper {
                     case R.id.page_3:
                         break;
                 }
-                Log.d("TAG", "onClick: " + item.getItemId());
                 return false;
             }
         });
-        Log.d("TAG", "setupNavigationBar: "+itemSelected);
-        Log.d("TAG", "setupNavigationBar: "+R.id.page_1);
 
 
         rootView.addView(navigationBarLayout);
