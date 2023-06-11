@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        mAuth = FirebaseAuth.getInstance();
         Intent intent = null;
         intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);

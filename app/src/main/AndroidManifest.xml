@@ -25,20 +25,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MainActivity">
+        <activity android:name=".Activities.MainActivity"
+            android:label="Inicio">
 
         </activity>
         <activity
             android:name=".Activities.AnimeDetailsActivity"
-            android:label="Anime Details" />
+            android:label="" />
         <activity
             android:name=".Activities.VerEpisodio"
             android:configChanges="orientation|screenSize"
-            android:label="Ver Episodio" />
+            android:label="" />
         <activity
             android:name=".Activities.BusquedaAnimes"
             android:configChanges="orientation|screenSize"
-            android:label="Busqueda Animes" />
+            android:label="Busqueda" />
         <activity
             android:name=".Activities.Perfil"
             android:configChanges="orientation|screenSize"

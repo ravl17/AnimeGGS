@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.animeggs.Adapters.LoginHelper;
 import com.example.animeggs.R;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.BeginSignInResult;
@@ -39,6 +40,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class Login extends AppCompatActivity {
 
@@ -50,14 +52,13 @@ public class Login extends AppCompatActivity {
     SignInClient oneTapClient;
     BeginSignInRequest signUpRequest;
 
-    private static final int REQ_ONE_TAP = 2;  // Can be any integer unique to the Activity.
     private boolean showOneTapUI = true;
 
     @Override
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();
@@ -70,6 +71,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
         btn_login = findViewById(R.id.btn_login);
@@ -97,6 +99,7 @@ public class Login extends AppCompatActivity {
                         .build())
                 .build();
 
+
         ActivityResultLauncher<IntentSenderRequest> activityResultLauncher =
                 registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), new ActivityResultCallback<ActivityResult>() {
                     @Override
@@ -105,9 +108,26 @@ public class Login extends AppCompatActivity {
                             try {
                                 SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(result.getData());
                                 String idToken = credential.getGoogleIdToken();
-                                if (idToken !=  null) {
+                                if (idToken != null) {
                                     String email = credential.getId();
                                     Toast.makeText(getApplicationContext(), "Email: " + email, Toast.LENGTH_SHORT).show();
+                                    // Store the email in the mAuth user
+                                    mAuth.signInWithCredential(GoogleAuthProvider.getCredential(idToken, null))
+                                            .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                    if (task.isSuccessful()) {
+                                                        // Authentication with Google successful
+                                                        // Proceed to MainActivity
+                                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    } else {
+                                                        // Authentication with Google failed
+                                                        Toast.makeText(Login.this, "Google sign-in failed.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
                                 }
                             } catch (ApiException e) {
                                 e.printStackTrace();
@@ -115,7 +135,6 @@ public class Login extends AppCompatActivity {
                         }
                     }
                 });
-
         btn_singIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,11 +157,9 @@ public class Login extends AppCompatActivity {
             }
         });
 
-
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
                 String email, password;
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPassword.getText());
@@ -157,21 +174,24 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
+
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.VISIBLE);
                                 if (task.isSuccessful()) {
                                     Toast.makeText(getApplicationContext(), "Inicio de sesión exitoso.",
                                             Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
+                                    LoginHelper.almacenarEnRealTime(email);
                                     finish();
                                 } else {
                                     Toast.makeText(Login.this, "Autenticación fallida.",
                                             Toast.LENGTH_SHORT).show();
                                 }
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
             }

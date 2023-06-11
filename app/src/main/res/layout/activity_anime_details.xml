@@ -23,13 +23,13 @@
             <!-- Anime title -->
 
             <TextView
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
                 android:id="@+id/anime_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:text="Anime Title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
             <!-- Anime description -->
@@ -39,14 +39,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Anime description goes here"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:textSize="16sp"
+                android:ellipsize="end"
                 android:lineSpacingMultiplier="1.2"
                 android:maxLines="3"
-                android:ellipsize="end"/>
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="Anime description goes here"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="16sp" />
 
             <TextView
 

@@ -56,7 +56,7 @@ public class VerEpisodio extends AppCompatActivity {
         numeroEpisodio = intent.getStringExtra("numeroEpisodio");
         anime = intent.getParcelableExtra("anime");
         episodios = intent.getParcelableArrayListExtra("episodios");
-
+        setTitle("Episodio "+(Integer.parseInt(numeroEpisodio)+1));
         webView = findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());

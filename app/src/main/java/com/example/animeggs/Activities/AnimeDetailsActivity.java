@@ -53,7 +53,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         anime = intent.getParcelableExtra("anime");
         anime.setEpisodios(intent.getParcelableArrayListExtra("episodios"));
-
+        setTitle(anime.getNombre());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("users");
         ref.addValueEventListener(new ValueEventListener() {
@@ -104,7 +104,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
     public void setAnimeDetails(Anime anime, String epVistos) {
         //Creamos el titulo del anime
         textViewNombre = findViewById(R.id.anime_title);
-        textViewNombre.setText(anime.getNombre());
+        textViewNombre.setText("");
         //Creamos la descripcion del anime
         textViewDescripcion = findViewById(R.id.anime_descripcion);
         String descripcion = anime.getDescripcion();
