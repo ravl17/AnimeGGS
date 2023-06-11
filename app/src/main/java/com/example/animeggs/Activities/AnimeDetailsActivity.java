@@ -46,14 +46,14 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_anime_details);
 
 //        BarraBusquedaHelper.setupSearchBar(this);
-        NavigationBarHelper.setupNavigationBar(this,R.id.page_2);
+        NavigationBarHelper.setupNavigationBar(this, R.id.page_2);
 
         btnSiguiendo = findViewById(R.id.btnSiguiendo);
 
         Intent intent = getIntent();
         anime = intent.getParcelableExtra("anime");
         anime.setEpisodios(intent.getParcelableArrayListExtra("episodios"));
-        setAnimeDetails(anime);
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("users");
         ref.addValueEventListener(new ValueEventListener() {
@@ -62,17 +62,25 @@ public class AnimeDetailsActivity extends AppCompatActivity {
                 boolean dejarSeguir = false;
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     String correo = userSnapshot.child("correo").getValue(String.class);
-                    if (correo.contentEquals(FirebaseAuth.getInstance().getCurrentUser().getEmail()) && correo != null) {
+                    if (correo.contentEquals(FirebaseAuth.getInstance().getCurrentUser().getEmail())) {
                         DataSnapshot siguiendoSnapshot = userSnapshot.child("siguiendo");
                         for (DataSnapshot serieSnapshot : siguiendoSnapshot.getChildren()) {
 
                             if ((serieSnapshot.child("serie").getValue(String.class)).equals(anime.getNombre())) {
                                 Log.d("TAG", "onDataChange: " + serieSnapshot.child("serie").getValue(String.class));
                                 Log.d("TAG", "onDataChange: " + anime.getNombre());
-                                dejarSeguir=true;
+                                dejarSeguir = true;
                             }
                         }
                         cambiarBtnSiguiendo(dejarSeguir);
+                        DataSnapshot visualizacionesSnapshot = userSnapshot.child("visualizaciones");
+                        String epVistos = "";
+                        for (DataSnapshot serie : visualizacionesSnapshot.getChildren()) {
+                            if ((serie.child("serie").getValue(String.class)).equals(anime.getNombre())) {
+                                epVistos = serie.child("epVistos").getValue(String.class);
+                            }
+                        }
+                        setAnimeDetails(anime, epVistos);
                     }
 
                 }
@@ -93,7 +101,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         });
     }
 
-    public void setAnimeDetails(Anime anime) {
+    public void setAnimeDetails(Anime anime, String epVistos) {
         //Creamos el titulo del anime
         textViewNombre = findViewById(R.id.anime_title);
         textViewNombre.setText(anime.getNombre());
@@ -122,16 +130,18 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         episodiosRecyclerView = findViewById(R.id.recycler_view_episodios);
         episodiosRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        EpisodioAdapter adapter = new EpisodioAdapter(anime, this);
+        EpisodioAdapter adapter = new EpisodioAdapter(anime, epVistos, this);
         episodiosRecyclerView.setAdapter(adapter);
     }
-    public void cambiarBtnSiguiendo(boolean dejarSeguir){
-        if(!dejarSeguir){
+
+    public void cambiarBtnSiguiendo(boolean dejarSeguir) {
+        if (!dejarSeguir) {
             btnSiguiendo.setText("SEGUIR");
-        }else{
+        } else {
             btnSiguiendo.setText("SIGUIENDO");
         }
     }
+
     public void seguirAnime() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference tableRef = database.getReference("users");

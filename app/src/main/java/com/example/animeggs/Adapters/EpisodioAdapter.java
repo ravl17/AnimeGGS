@@ -1,10 +1,15 @@
 package com.example.animeggs.Adapters;
 
+
+
+
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,17 +22,21 @@ import com.example.animeggs.R;
 import com.example.animeggs.Activities.VerEpisodio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.EpisodioViewHolder> {
     private Context context;
     private List<Episodio> episodios;
     private Anime anime;
+    private ArrayList<String> epVistos;
 
-    public EpisodioAdapter(Anime anime, Context context) {
+    public EpisodioAdapter(Anime anime,String epVistos, Context context) {
         this.episodios = anime.getEpisodios();
         this.anime = anime;
         this.context = context;
+        this.epVistos=new ArrayList<>(Arrays.asList(epVistos.split(",")));
     }
 
     @NonNull
@@ -40,8 +49,16 @@ public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.Episod
     @Override
     public void onBindViewHolder(@NonNull EpisodioViewHolder holder, int position) {
         Episodio episodio = episodios.get(position);
+        Log.d("TAG", "onBindViewHolder: "+epVistos);
+        if(epVistos.contains(position+"")){
+            holder.imgVisto.setVisibility(View.VISIBLE);
+            holder.episodioLayout.setBackgroundColor(0xFFE53637);
+        }else{
+            holder.imgVisto.setVisibility(View.GONE);
+            holder.episodioLayout.setBackgroundColor(0xFFFFFFFF);
+        }
         holder.textViewEpisodioNumero.setText("Episodio " + (position+1));
-        holder.episodio_layout.setOnClickListener(v -> {
+        holder.episodioLayout.setOnClickListener(v -> {
             Intent intent = new Intent(context, VerEpisodio.class);
             intent.putExtra("enlaceEpisodio", episodio.getEp());
             intent.putExtra("numeroEpisodio", ""+position);
@@ -58,13 +75,13 @@ public class EpisodioAdapter extends RecyclerView.Adapter<EpisodioAdapter.Episod
 
     public static class EpisodioViewHolder extends RecyclerView.ViewHolder {
         TextView textViewEpisodioNumero;
-        TextView textViewEpisodioTitulo;
-        LinearLayout episodio_layout;
+        LinearLayout episodioLayout;
+        ImageView imgVisto;
 
         public EpisodioViewHolder(@NonNull View itemView) {
             super(itemView);
-            episodio_layout = itemView.findViewById(R.id.anime_search_layout_s);
-            textViewEpisodioTitulo = itemView.findViewById(R.id.text_view_anime_search_nombre);
+            episodioLayout = itemView.findViewById(R.id.anime_episodio_layout);
+            imgVisto = itemView.findViewById(R.id.imgVisto);
             textViewEpisodioNumero = itemView.findViewById(R.id.text_view_episodio_numero);
 
         }

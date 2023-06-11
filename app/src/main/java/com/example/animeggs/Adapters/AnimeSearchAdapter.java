@@ -2,6 +2,7 @@ package com.example.animeggs.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +47,8 @@ public class AnimeSearchAdapter extends RecyclerView.Adapter<AnimeSearchAdapter.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AnimeDetailsActivity.class);
-                intent.putExtra("anime_nombre", anime.getNombre());
-                intent.putParcelableArrayListExtra("episodios",  anime.getEpisodios());
+                intent.putExtra("anime", (Parcelable) anime);
+                intent.putParcelableArrayListExtra("episodios", anime.getEpisodios());
                 context.startActivity(intent);
             }
         });
