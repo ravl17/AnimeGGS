@@ -35,6 +35,9 @@ public class VerEpisodio extends AppCompatActivity {
     private String enlaceEpisodio;
     private Anime anime;
     private ArrayList<Episodio> episodios;
+    private ArrayList<String> epVistosList;
+    private ArrayList<String> epVistosListIntent;
+
     private String numeroEpisodio;
     private WebView webView;
 
@@ -56,11 +59,20 @@ public class VerEpisodio extends AppCompatActivity {
         numeroEpisodio = intent.getStringExtra("numeroEpisodio");
         anime = intent.getParcelableExtra("anime");
         episodios = intent.getParcelableArrayListExtra("episodios");
-        setTitle("Episodio "+(Integer.parseInt(numeroEpisodio)+1));
+        epVistosListIntent= intent.getStringArrayListExtra("episodiosVistos");
+        epVistosList=epVistosListIntent;
+        setTitle("Episodio " + (Integer.parseInt(numeroEpisodio) + 1));
+
         webView = findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl(enlaceEpisodio);
+
+        if (epVistosListIntent.contains(numeroEpisodio)) {
+            cambiarBotonVisto(true);
+        } else {
+            cambiarBotonVisto(false);
+        }
 
         mAuth = FirebaseAuth.getInstance();
         btnPrevEpisodio.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +83,7 @@ public class VerEpisodio extends AppCompatActivity {
                     intent.putExtra("enlaceEpisodio", episodios.get(Integer.parseInt(numeroEpisodio) - 1).getEp());
                     intent.putExtra("numeroEpisodio", "" + (Integer.parseInt(numeroEpisodio) - 1));
                     intent.putExtra("anime", (Parcelable) anime);
+                    intent.putStringArrayListExtra("episodiosVistos", epVistosList);
                     intent.putParcelableArrayListExtra("episodios", episodios);
 
                     v.getContext().startActivity(intent);
@@ -99,6 +112,7 @@ public class VerEpisodio extends AppCompatActivity {
                     intent.putExtra("enlaceEpisodio", episodios.get(Integer.parseInt(numeroEpisodio) + 1).getEp());
                     intent.putExtra("numeroEpisodio", "" + (Integer.parseInt(numeroEpisodio) + 1));
                     intent.putExtra("anime", (Parcelable) anime);
+                    intent.putStringArrayListExtra("episodiosVistos", epVistosList);
                     intent.putParcelableArrayListExtra("episodios", episodios);
 
                     v.getContext().startActivity(intent);
@@ -128,7 +142,7 @@ public class VerEpisodio extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     String correo = userSnapshot.child("correo").getValue(String.class);
-                    if (correo.contentEquals(mAuth.getCurrentUser().getEmail()) && correo != null) {
+                    if (correo.contentEquals(mAuth.getCurrentUser().getEmail())) {
                         DataSnapshot visualizacionesSnapshot = userSnapshot.child("visualizaciones");
                         ArrayList<Usuario.VisualizacionItem> newVisualizacionAnime = new ArrayList<>();
 
@@ -143,16 +157,20 @@ public class VerEpisodio extends AppCompatActivity {
                         for (Usuario.VisualizacionItem n : newVisualizacionAnime) {
                             if (n.getSerie().equals(anime.getNombre())) {
                                 estaEnBD = true;
-                                ArrayList<String> epVistosList = new ArrayList<>();
+                                epVistosList = new ArrayList<>();
                                 if (n.getEpVistos() != null && !n.getEpVistos().isEmpty()) {
                                     epVistosList = new ArrayList<>(Arrays.asList(n.getEpVistos().split(",")));
+                                    cambiarBotonVisto(false);
                                 }
                                 if (epVistosList.size() == 1 && epVistosList.contains(numeroEpisodio)) {
                                     n.setEpVistos("");
+                                    cambiarBotonVisto(false);
                                 } else {
                                     if (epVistosList.contains(numeroEpisodio)) {
+                                        cambiarBotonVisto(false);
                                         epVistosList.remove(numeroEpisodio);
                                     } else {
+                                        cambiarBotonVisto(true);
                                         epVistosList.add(numeroEpisodio);
                                     }
                                     String updatedEpVistos = TextUtils.join(",", epVistosList);
@@ -161,6 +179,7 @@ public class VerEpisodio extends AppCompatActivity {
                             }
                         }
                         if (!estaEnBD) {
+                            cambiarBotonVisto(true);
                             Usuario.VisualizacionItem v = new Usuario.VisualizacionItem();
                             v.setSerie(anime.getNombre());
                             v.setEpVistos(numeroEpisodio);
@@ -179,5 +198,15 @@ public class VerEpisodio extends AppCompatActivity {
             }
         });
 
+
+    }
+    public void cambiarBotonVisto(boolean estaVisto){
+        if (estaVisto) {
+            btnMarcarVisto.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.baseline_remove_red_eye_24, 0, 0);
+            btnMarcarVisto.setText("Visto");
+        } else {
+            btnMarcarVisto.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.baseline_visibility_off_24, 0, 0);
+            btnMarcarVisto.setText("No visto");
+        }
     }
 }

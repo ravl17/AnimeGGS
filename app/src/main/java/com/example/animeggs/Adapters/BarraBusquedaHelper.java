@@ -50,25 +50,19 @@ public class BarraBusquedaHelper {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(!newText.trim().contentEquals("")){
+                if (!newText.trim().contentEquals("")) {
                     animeSearchAdapter.filter(newText);
-                }else {
+                } else {
                     animeSearchAdapter.filter("zzzzzzzzzzzzzzzzzzzzzzzzzzz");
                 }
                 return true;
             }
         });
         searchView.setOnQueryTextFocusChangeListener((view, hasFocus) -> {
-            if (!hasFocus) {
-                // Clear the adapter and hide the RecyclerView when the search view loses focus
-//                searchView.setQuery("", false);
-//                searchView.setIconified(true);
-//                recyclerView.setVisibility(View.GONE);
-            } else {
+            if (hasFocus) {
                 recyclerView.setVisibility(View.VISIBLE);
             }
         });
-
 
 
     }

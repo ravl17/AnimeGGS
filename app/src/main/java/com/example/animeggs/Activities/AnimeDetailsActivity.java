@@ -34,7 +34,6 @@ import java.util.Arrays;
 
 public class AnimeDetailsActivity extends AppCompatActivity {
     private ImageView imageView;
-    private TextView textViewNombre;
     private TextView textViewDescripcion;
     private Button btnSiguiendo;
     private RecyclerView episodiosRecyclerView;
@@ -102,9 +101,6 @@ public class AnimeDetailsActivity extends AppCompatActivity {
     }
 
     public void setAnimeDetails(Anime anime, String epVistos) {
-        //Creamos el titulo del anime
-        textViewNombre = findViewById(R.id.anime_title);
-        textViewNombre.setText("");
         //Creamos la descripcion del anime
         textViewDescripcion = findViewById(R.id.anime_descripcion);
         String descripcion = anime.getDescripcion();

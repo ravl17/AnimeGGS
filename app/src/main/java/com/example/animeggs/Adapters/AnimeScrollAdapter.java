@@ -2,6 +2,7 @@ package com.example.animeggs.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,11 +70,12 @@ public class AnimeScrollAdapter extends RecyclerView.Adapter<AnimeScrollAdapter.
             super(v);
             cardLayout = v.findViewById(R.id.card_layout);
             int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
-            cardLayout.getLayoutParams().width = (int) (screenWidth /2.81);
-            cardLayout.getLayoutParams().height = (int) (screenWidth*0.60);
+            cardLayout.getLayoutParams().width = (int) (screenWidth /2.61);
+            cardLayout.getLayoutParams().height = (int) (screenWidth*0.71);
             cardCaratula = v.findViewById(R.id.card_caratula);
             cardNombre = v.findViewById(R.id.card_nombre);
         }
 
     }
+
 }

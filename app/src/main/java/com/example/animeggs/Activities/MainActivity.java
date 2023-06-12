@@ -6,8 +6,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -96,15 +99,18 @@ public class MainActivity extends AppCompatActivity {
 
         if (animeList != null && animeList.size() != 0) {
             RecyclerView recyclerView = new RecyclerView(this);
+            recyclerView.addItemDecoration(new PaddingItemDecoration(5));
             recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
             AnimeScrollAdapter adapter = new AnimeScrollAdapter(animeList, this);
             recyclerView.setAdapter(adapter);
-
             LinearLayout layout = findViewById(R.id.layout_scroll_vertical);
             TextView textView = new TextView(this);
+            textView.setTextColor(0xFFFFFFFF);
             textView.setText(nombreListaAnimes);
-            textView.setTextAppearance(R.style.TextAppearance_AppCompat_Title);
+            textView.setTypeface(null, Typeface.BOLD);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+
             textView.setPadding(20, 20, 20, 20);
             layout.addView(textView);
             layout.addView(recyclerView);
@@ -167,5 +173,21 @@ public class MainActivity extends AppCompatActivity {
                 // Handle error
             }
         });
+    }
+    private class PaddingItemDecoration extends RecyclerView.ItemDecoration {
+        private final int size;
+
+        public PaddingItemDecoration(int size) {
+            this.size = size;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+
+            // Apply offset only to the first item
+                outRect.right += size;
+                outRect.left += size;
+        }
     }
 }

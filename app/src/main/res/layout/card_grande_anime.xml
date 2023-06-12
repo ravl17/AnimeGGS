@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="Nombre"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+            android:textColor="@color/colorPrimary"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     </LinearLayout>
 

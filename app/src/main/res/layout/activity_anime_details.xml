@@ -20,17 +20,6 @@
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY" />
 
-            <!-- Anime title -->
-
-            <TextView
-                android:id="@+id/anime_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:text="Anime Title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
 
             <!-- Anime description -->
 
