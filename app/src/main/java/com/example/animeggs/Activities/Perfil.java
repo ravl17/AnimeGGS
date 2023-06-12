@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +31,7 @@ import java.util.ArrayList;
 public class Perfil extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Usuario usuarioActivo;
+    private TextView textViewUsuarioCorreo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,7 @@ public class Perfil extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         Button btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
+        textViewUsuarioCorreo = findViewById(R.id.textUsuarioCorreo);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,43 +81,6 @@ public class Perfil extends AppCompatActivity {
 
     }
 
-    public void crearCardAnimes(String nombreListaAnimes, ArrayList<Anime> animeList) {
-
-        if (animeList != null && animeList.size() != 0) {
-            RecyclerView recyclerView = new RecyclerView(this);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
-            AnimeScrollAdapter adapter = new AnimeScrollAdapter(animeList, this);
-            recyclerView.setAdapter(adapter);
-
-            LinearLayout layout = findViewById(R.id.layout_scroll_vertical);
-            TextView textView = new TextView(this);
-            textView.setTextColor(0xFFFFFFFF);
-            textView.setText(nombreListaAnimes);
-            textView.setTypeface(null, Typeface.BOLD);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-
-            textView.setPadding(20, 20, 20, 20);
-            layout.addView(textView);
-            layout.addView(recyclerView);
-        }
-    }
-
-    public void crearListaAnimeViendo(ArrayList<Anime> animeList) {
-        ArrayList<Anime> animeViendo = new ArrayList<>();
-        if (usuarioActivo != null) {
-            for (Anime anime : animeList) {
-                for (Usuario.VisualizacionItem visualizacion : usuarioActivo.getVisualizaciones()) {
-                    if (visualizacion.getSerie().contentEquals(anime.getNombre())) {
-                        animeViendo.add(anime);
-                    }
-                }
-            }
-            crearCardAnimes("Viendo",animeViendo);
-        }
-
-    }
-
     public void getUsuarioActivo() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference dbUsers = database.getReference("users");
@@ -147,4 +111,50 @@ public class Perfil extends AppCompatActivity {
         });
     }
 
+
+    public void crearListaAnimeViendo(ArrayList<Anime> animeList) {
+        ArrayList<Anime> animeViendo = new ArrayList<>();
+        if (usuarioActivo != null) {
+            for (Anime anime : animeList) {
+                for (Usuario.VisualizacionItem visualizacion : usuarioActivo.getVisualizaciones()) {
+                    if (visualizacion.getSerie().contentEquals(anime.getNombre()) && !visualizacion.getEpVistos().isEmpty()) {
+                        animeViendo.add(anime);
+                    }
+                }
+            }
+            crearCardAnimes("Viendo", animeViendo);
+        }
+
+    }
+
+    public void crearCardAnimes(String nombreListaAnimes, ArrayList<Anime> animeList) {
+
+        if (animeList != null && animeList.size() != 0) {
+            RecyclerView recyclerView = new RecyclerView(this);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+            AnimeScrollAdapter adapter = new AnimeScrollAdapter(animeList, this);
+            recyclerView.setAdapter(adapter);
+
+            LinearLayout layout = findViewById(R.id.layout_scroll_vertical);
+            TextView textView = new TextView(this);
+            textView.setTextColor(0xFFFFFFFF);
+            textView.setText(nombreListaAnimes);
+            textView.setTypeface(null, Typeface.BOLD);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+
+            textView.setPadding(20, 20, 20, 20);
+            layout.addView(textView);
+            layout.addView(recyclerView);
+        }
+        setTextUserCorreo();
+    }
+
+    public void setTextUserCorreo() {
+
+        textViewUsuarioCorreo.setTextColor(0xFFFFFFFF);
+        textViewUsuarioCorreo.setText(usuarioActivo.getCorreo());
+        textViewUsuarioCorreo.setTypeface(null, Typeface.BOLD);
+        textViewUsuarioCorreo.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+    }
 }

@@ -11,14 +11,15 @@
     tools:context=".Activities.Login">
 
     <TextView
-        android:text="Inicio sesión"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="Inicio sesión"
+        android:textColor="@color/white"
+        android:textSize="40dp"
+        android:textStyle="bold" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:textColorHint="@color/white"
         android:layout_width="match_parent"
